@@ -131,6 +131,10 @@ body {
     margin-bottom: 40px;
 }
 
+.content .box form input[type=text]:focus, .content .box form input[type=email]:focus, .content .box form textarea:focus {
+    outline: none;
+}
+
 .content .box form input::placeholder, .content .box form textarea::placeholder {
     color: black;
     opacity: 1; 
@@ -141,6 +145,13 @@ body {
     font-size: 20px;
     background-color: transparent;
     padding: 5px 10px;
+    transition: .3s;
+}
+
+.content .box form input[type=submit]:hover {
+    background-color: black;
+    color: #fff;
+    cursor: pointer;
 }
 
 
