@@ -48,6 +48,14 @@ body {
     text-decoration: none;
     padding:  0 20px 0 20px;
     font-size: 20px;
+    opacity: .75;
+    transition: .3s ease;
+}
+
+.navbar a:hover {
+    opacity: 1;
+    cursor: pointer;
+    color: #fff;
 }
 
 .navbar img {
