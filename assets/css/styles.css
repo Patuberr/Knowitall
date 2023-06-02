@@ -7,6 +7,7 @@
 body {
     margin: 0;
     padding: 0;
+    /* min-height: 100vh; */
 }
 
 .navbar {
@@ -60,6 +61,10 @@ body {
     color: #fff;
 }
 
+.page {
+    min-height: 100vh;
+}
+
 .content {
     padding-top: 100px;
 }
@@ -107,4 +112,53 @@ body {
 
 .content .box .content img {
     max-width: 500px;
+}
+
+.content .box form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.content .box form input[type=text], .content .box form input[type=email], .content .box form textarea {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    width: 100%;
+    font-size: 20px;
+    color: black;
+    opacity: 1;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.content .box form input::placeholder, .content .box form textarea::placeholder {
+    color: black;
+    opacity: 1; 
+}
+
+.content .box form input[type=submit] {
+    border: 1px solid black;
+    font-size: 20px;
+    background-color: transparent;
+    padding: 5px 10px;
+}
+
+
+
+.footer {
+    /* position: absolute; */
+    background-color: black;
+    text-align: center;
+    color: #fff;
+    width: 100%;
+    margin-top: auto;
+    height: 40px;
+    /* bottom: 0; */
+}
+
+.footer p {
+    padding: auto 0;
+    line-height: 40px;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
