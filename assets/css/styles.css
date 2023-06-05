@@ -1,3 +1,22 @@
+@keyframes popup {
+    0%{
+      transform: scale(0);
+    }
+    100%{
+      transform: scale(1);
+    }
+  }
+
+  @keyframes popout {
+    0%{
+      transform: scale(1);
+    }
+    100%{
+      transform: scale(0);
+      /* display: none; */
+    }
+  }
+
 * {
     font-family: Arial;
     font-weight: bold;
@@ -8,6 +27,10 @@ body {
     margin: 0;
     padding: 0;
     /* min-height: 100vh; */
+}
+
+.logo {
+    font-family: helvetica;
 }
 
 .header{
@@ -59,6 +82,95 @@ body {
     text-decoration: none;
     font-size: 2.1rem;
     font-weight: 500;
+    color: #fff;
+}
+
+.form {
+    position: relative;
+    top: 100px;
+    display: none;
+    margin: 0 auto 0 auto;
+    width: 300px;
+    background-color: #fff;
+    border-radius: 20px;
+    z-index: 9999;
+    animation: popup .3s;
+}
+
+.form input:focus {
+    border: none;
+    text-decoration: none;
+    outline: none;
+}
+
+.form img {
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+    padding: 25px 0 25px 0;
+}
+
+.form div {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 10px;
+}
+.form {
+    padding: 0 50px 0 50px;
+    box-shadow: 1px 1px 10px black;
+}
+
+.form h1 {
+    text-align: center;
+}
+
+.form i {
+    position: relative;
+    right: -325;
+    top: 10px;
+}
+
+.form i:hover {
+    cursor: pointer;
+}
+
+.form.login p {
+    font-size: 15px;
+    text-align: center;
+}.form.login a {
+    cursor: pointer;
+    color: #0000ff;
+}
+
+.form ion-icon {
+    position: relative;
+    top: 3.5px;
+    padding: 0;
+    text-align: center;
+}
+
+.form input {
+    border: none;
+    background-color: transparent;
+}
+
+.form input[type=submit] {
+    border: none;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    padding: 10px 0 10px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    transition: .3s ease;
+    background-color: transparent;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form input[type=submit]:hover {
+    cursor: pointer;
+    background-color: black;
     color: #fff;
 }
 
