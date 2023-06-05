@@ -23,7 +23,7 @@
                     <a href="./contact.html" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"><i class="fa-solid fa-person"></i></a>
+                    <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -33,6 +33,61 @@
             </div>
         </nav>
     </header>
+
+    <div class="form login" id="login_form">
+        <i class="fa-solid fa-x" onclick="closeLogin(1)"></i>
+        <h1 class="logo">KnowItAll</h1>
+        <form action="" method="post">
+            <div class="email">
+                <label for="email_login">Email Adress</label> <br>
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" name="email_login" id="email_login" required=true placeholder="username@mail.com">
+            </div> <br>
+            <div class="password">
+                <label for="password_login">Password</label> <br>
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
+                <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
+            </div> <br>
+            <input type="submit" name="submit" value="Inloggen"> <br>
+            <p>Geen account? <a onclick="openRegister()">regsitreer</a></p> <br> 
+        </form>
+    </div>
+
+    <div class="form register" id="register_form">
+        <i class="fa-solid fa-x" onclick="closeLogin(2)"></i>
+        <h1>Register</h1>
+        <form action="" method="post">
+            <div class="firstname">
+                <label for="firstname">Firstname</label> <br>
+                <ion-icon name="text-outline"></ion-icon>
+                <input type="text" name="firstname" id="firstname" required=true placeholder="Firtsname">
+            </div><br>
+            <div class="lastname">
+                <label for="lastname">Lastname</label> <br>
+                <ion-icon name="text-outline"></ion-icon>
+                <input type="text" name="lastname" id="lastname" required=true placeholder="Lastname"> 
+            </div><br>
+            <div class="mail">
+                <label for="email">E-mail adress</label> <br>
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" name="email" id="email" required=true placeholder="username@mail.com">
+            </div><br>
+            <div class="password">
+                <label for="password">Password</label> <br>
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" name="password" id="id_password_2" required=true placeholder="············">
+                <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
+            </div><br>
+            <div class="password">
+                <label for="confirm_password">Confirm password</label> <br>
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" id="id_password_3" name="confirm_password" required=true placeholder="············">
+                <ion-icon name="eye-outline" id="eye_3" onclick="togglePassword(3)"></ion-icon>
+            </div><br>
+            <input type="submit" name="register_submit" value="Registreren"> <br> <br>
+        </form>
+    </div>
 
     <div class="page">
 
@@ -56,5 +111,7 @@
     </footer>
     <script src="https://kit.fontawesome.com/e6d99cb95a.js" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
