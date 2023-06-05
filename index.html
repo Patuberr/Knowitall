@@ -6,19 +6,35 @@
     <title>KnowItAll</title>
 
     <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
 <body>
-    <div class="navbar">
-        <img src="./assets/images/favicon.png" alt="">
-        <h1>KnowItAll</h1>
-        <div class="right">
-            <a href="./index.html">Home</a>
-            <a href="./weetjes.html">Weetjes</a>
-            <a href="./contact.html">Contact</a>
-            <i class="fa-solid fa-person" onclick="login()"></i>
-        </div>
-        
-    </div>
+    <header class="header">
+        <nav class="navbar">
+            <a href="#" class="nav-logo">KnowItAll</a>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="./index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./weetjes.html" class="nav-link">Weetjes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="./contact.html" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-person"></i></a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+
 
     <div class="page">
 
@@ -40,5 +56,6 @@
         <p class="italic">© 2023 Team zonder GPT</p>
     </div>
     <script src="https://kit.fontawesome.com/e6d99cb95a.js" crossorigin="anonymous"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
