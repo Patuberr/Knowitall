@@ -16,7 +16,7 @@ class database
     } 
     // get the database connection 
     public function getConnection(){ 
-        static $mycon = 0; 
+        static $mycon; 
         $this->conn = $mycon; 
         if(!isset($this->conn)) { 
             try { 

@@ -185,7 +185,9 @@ body {
     color: #fff;
 }
 
-
+.contact.titel {
+    text-align: center;
+}
 
 .page {
     margin-top: 110px;
