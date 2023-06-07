@@ -51,13 +51,13 @@ if(isset($_POST["register_submit"])) {
             <a href="#" class="nav-logo">KnowItAll</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./index.html" class="nav-link">Home</a>
+                    <a href="./index.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./weetjes.html" class="nav-link">Weetjes</a>
+                    <a href="./weetjes.php" class="nav-link">Weetjes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./contact.html" class="nav-link">Contact</a>
+                    <a href="./contact.php" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
@@ -88,7 +88,7 @@ if(isset($_POST["register_submit"])) {
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
             <input type="submit" name="submit" value="Inloggen"> <br>
-            <p>Geen account? <a onclick="openRegister()">regsitreer</a></p> <br> 
+            <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
 

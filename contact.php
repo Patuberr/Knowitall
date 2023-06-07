@@ -1,12 +1,38 @@
-<!--<?php
+<?php
 session_start();
 
+if(isset($_POST["register_submit"])) {
+    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST["email"]);
+    $userPassword = htmlspecialchars($_POST["password"]); // Changed variable name to $userPassword
 
+    $servername = "localhost";
+    $dbUsername = "root"; // Changed variable name to $dbUsername
+    $dbPassword = "";
+    $dbname = "knowitall";
 
+    $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbname);
 
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
+    $stmt = $conn->prepare("INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')");    /* execute query */
+    $stmt->execute();
 
-?>-->
+   
+    // $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
+
+    // if (mysqli_query($conn, $sql)) {
+    //     echo "Message inserted successfully";
+    //     header("location: index.php");
+    // } else {
+    //     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    // }
+}
+
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,13 +49,13 @@ session_start();
             <a href="#" class="nav-logo">KnowItAll</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./index.html" class="nav-link">Home</a>
+                    <a href="./index.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./weetjes.html" class="nav-link">Weetjes</a>
+                    <a href="./weetjes.php" class="nav-link">Weetjes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./contact.html" class="nav-link">Contact</a>
+                    <a href="./contact.php" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
@@ -59,7 +85,7 @@ session_start();
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
             <input type="submit" name="submit" value="Inloggen"> <br>
-            <p>Geen account? <a onclick="openRegister()">regsitreer</a></p> <br> 
+            <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
 
@@ -68,14 +94,9 @@ session_start();
         <h1>Register</h1>
         <form action="" method="post">
             <div class="firstname">
-                <label for="firstname">Firstname</label> <br>
+                <label for="firstname">Username</label> <br>
                 <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="firstname" id="firstname" required=true placeholder="Firtsname">
-            </div><br>
-            <div class="lastname">
-                <label for="lastname">Lastname</label> <br>
-                <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="lastname" id="lastname" required=true placeholder="Lastname"> 
+                <input type="text" name="username" id="firstname" required=true placeholder="username">
             </div><br>
             <div class="mail">
                 <label for="email">E-mail adress</label> <br>
@@ -87,12 +108,6 @@ session_start();
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input type="password" name="password" id="id_password_2" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
-            </div><br>
-            <div class="password">
-                <label for="confirm_password">Confirm password</label> <br>
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="id_password_3" name="confirm_password" required=true placeholder="············">
-                <ion-icon name="eye-outline" id="eye_3" onclick="togglePassword(3)"></ion-icon>
             </div><br>
             <input type="submit" name="register_submit" value="Registreren"> <br> <br>
         </form>
