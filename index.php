@@ -1,3 +1,36 @@
+<?php
+session_start();
+
+if(isset($_POST["register_submit"])) {
+    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST["email"]);
+    $userPassword = htmlspecialchars($_POST["password"]); // Changed variable name to $userPassword
+
+    $servername = "localhost";
+    $dbUsername = "root"; // Changed variable name to $dbUsername
+    $dbPassword = "";
+    $dbname = "knowitall";
+
+    $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbname);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+   
+    $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Message inserted successfully";
+        header("location: index.php");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+?>
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -59,15 +92,10 @@
         <i class="fa-solid fa-x" onclick="closeLogin(2)"></i>
         <h1>Register</h1>
         <form action="" method="post">
-            <div class="firstname">
-                <label for="firstname">Firstname</label> <br>
+            <div class="username">
+                <label for="username">username</label> <br>
                 <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="firstname" id="firstname" required=true placeholder="Firtsname">
-            </div><br>
-            <div class="lastname">
-                <label for="lastname">Lastname</label> <br>
-                <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="lastname" id="lastname" required=true placeholder="Lastname"> 
+                <input type="text" name="username" id="username" required=true placeholder="username">
             </div><br>
             <div class="mail">
                 <label for="email">E-mail adress</label> <br>
@@ -80,12 +108,7 @@
                 <input type="password" name="password" id="id_password_2" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
             </div><br>
-            <div class="password">
-                <label for="confirm_password">Confirm password</label> <br>
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="id_password_3" name="confirm_password" required=true placeholder="············">
-                <ion-icon name="eye-outline" id="eye_3" onclick="togglePassword(3)"></ion-icon>
-            </div><br>
+
             <input type="submit" name="register_submit" value="Registreren"> <br> <br>
         </form>
     </div>
