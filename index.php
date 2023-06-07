@@ -11,20 +11,24 @@ if(isset($_POST["register_submit"])) {
     $dbPassword = "";
     $dbname = "knowitall";
 
-    $conn = mysqli_connect($servername, $dbUsername, $dbPassword, $dbname);
+    $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbname);
 
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-   
-    $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
 
-    if (mysqli_query($conn, $sql)) {
-        echo "Message inserted successfully";
-        header("location: index.php");
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    }
+    $stmt = $conn->prepare("INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')");    /* execute query */
+    $stmt->execute();
+
+   
+    // $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
+
+    // if (mysqli_query($conn, $sql)) {
+    //     echo "Message inserted successfully";
+    //     header("location: index.php");
+    // } else {
+    //     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    // }
 }
 
 ?>
