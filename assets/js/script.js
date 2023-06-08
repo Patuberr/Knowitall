@@ -60,6 +60,10 @@ function closeLogin(number) {
         document.getElementById("register_form").style.animation = "popout .3s";
         setTimeout(() => {      document.getElementById("register_form").style.display = "none"; }, 290);
     }
+    else if (number == 4) {
+        document.getElementById("weetjes-aanmaken-form").style.animation = "popout .3s";
+        setTimeout(() => {       document.getElementById("weetjes-aanmaken-form").style.display = "none"; }, 290);
+    }
 
 };
 
@@ -75,4 +79,9 @@ function togglePassword(number) {
       eye.setAttribute('name', 'eye-outline')
     }
   } 
+
+function OpenStatusWeetjes() {
+    document.getElementById("weetjes-aanmaken-form").style.display = "none";
+    document.getElementById("weetjes-aanmaken-form").style.display = "block";
+}
 
