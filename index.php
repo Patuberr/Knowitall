@@ -36,14 +36,7 @@ if(isset($_POST["register_submit"])) {
     $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
 
    
-    // $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
 
-    // if (mysqli_query($conn, $sql)) {
-    //     echo "Message inserted successfully";
-    //     header("location: index.php");
-    // } else {
-    //     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    // }
 }
 
 ?>
