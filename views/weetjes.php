@@ -95,8 +95,6 @@ if(isset($_POST["register_submit"])) {
 	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
 }
 }
-
-
 ?>
 
 

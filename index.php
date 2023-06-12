@@ -1,5 +1,4 @@
 <?php 
-
 //lees request uit
 $request = $_SERVER['REQUEST_URI'];
 $url = parse_url($request);
