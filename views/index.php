@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 include_once("./classes/config/database.php");
 
@@ -33,7 +33,7 @@ if(isset($_POST["register_submit"])) {
 
 ?>
 
-?>
+
 
 <html lang="en">
 <head>
@@ -51,13 +51,13 @@ if(isset($_POST["register_submit"])) {
             <a href="#" class="nav-logo">KnowItAll</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./index.php" class="nav-link">Home</a>
+                    <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./weetjes.php" class="nav-link">Weetjes</a>
+                    <a href="/weetjes" class="nav-link">Weetjes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./contact.php" class="nav-link">Contact</a>
+                    <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
@@ -70,6 +70,7 @@ if(isset($_POST["register_submit"])) {
             </div>
         </nav>
     </header>
+
 
     <div class="form login" id="login_form">
         <i class="fa-solid fa-x" onclick="closeLogin(1)"></i>
@@ -86,7 +87,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="submit" value="Inloggen"> <br>
+            <input type="submit" name="login_submit" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
@@ -95,10 +96,10 @@ if(isset($_POST["register_submit"])) {
         <i class="fa-solid fa-x" onclick="closeLogin(2)"></i>
         <h1>Register</h1>
         <form action="" method="post">
-            <div class="firstname">
-                <label for="firstname">Username</label> <br>
+            <div class="username">
+                <label for="username">username</label> <br>
                 <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="username" id="firstname" required=true placeholder="username">
+                <input type="text" name="username" id="username" required=true placeholder="username">
             </div><br>
             <div class="mail">
                 <label for="email">E-mail adress</label> <br>
@@ -111,30 +112,37 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password" id="id_password_2" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
             </div><br>
+
             <input type="submit" name="register_submit" value="Registreren"> <br> <br>
         </form>
     </div>
 
+
+
     <div class="page">
 
         <div class="content">
-            <h1>Contact</h1>
+            <h1>Weetje van de dag!</h1>
             <div class="box">
-                <h2 class="contact titel">Verstuur ons een bericht!</h2>
-                <form action="">
-                    <input type="text" id="name" name="name" placeholder="Naam"> <br>
-                    <input type="email" id="email" name="email" placeholder="E-mail"> <br>
-                    <input type="text" id="subject" name="subject" placeholder="Onderwerp"> <br> 
-                    <textarea name="message" id="message" placeholder="Bericht"></textarea> <br> 
-                    <input type="submit" name="submit" id="submit" value="Verzenden">
-                </form> <br>
+                <div class="content">
+                    <div class="images">
+                        <img src="./assets/images/koningsdag.jpg" alt="Koningsdag">
+                    </div>
+                    <div class="tekst">
+                        <h2 class="titel">Koningsdag</h2>
+                        <p class="date italic">27-05-2023</p>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, sapiente, sint ad dicta quam nulla deleniti perspiciatis ex veniam maxime mollitia error, atque dolorem architecto quod tenetur sunt consequatur consequuntur? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas mollitia quisquam repellat minus enim asperiores, hic quod natus voluptate. Ab pariatur quibusdam necessitatibus quo culpa nesciunt. Corrupti obcaecati natus dolores? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti quidem animi eum atque omnis ea nam in, rerum corporis maxime. Provident perferendis omnis porro eius a. Dolores exercitationem nesciunt recusandae.</p>
+                        <p class="italic">Auteur: Julian Berle</p>
+                        <p class="date italic">28-05-2023</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div> 
     </div>
 
-    <footer class="footer">
+    <div class="footer">
         <p class="italic">© 2023 Team zonder GPT</p>
-    </footer>
+    </div>
     <script src="https://kit.fontawesome.com/e6d99cb95a.js" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
