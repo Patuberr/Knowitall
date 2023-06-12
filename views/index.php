@@ -1,3 +1,40 @@
+<?php
+// session_start();
+
+include_once("./classes/config/database.php");
+
+if(isset($_POST['login_submit'])) {
+    $email = $_POST['email_login'];
+    $password = $_POST["password_login"];
+
+    $query = 'SELECT * FROM account WHERE (email = :email)';
+    $statement = $conn->prepare($query); 
+    $statement->execute([':email' => $email]);  
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+    if (is_array($row)) {
+        if (password_verify($password, $row['userpassword'])){
+            echo "Wachtwoord is juist!";
+        } else {
+            echo "Wachtwoord is onjuist!";
+        }
+    }
+}
+
+if(isset($_POST["register_submit"])) {
+    $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars($_POST["email"]);
+    $userPassword = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT); // Changed variable name to $userPassword
+
+
+    $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
+    $sth = $conn->prepare($sql);
+    $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
+}
+
+?>
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,13 +51,13 @@
             <a href="#" class="nav-logo">KnowItAll</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./index.php" class="nav-link">Home</a>
+                    <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./weetjes.php" class="nav-link">Weetjes</a>
+                    <a href="/weetjes" class="nav-link">Weetjes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./contact.php" class="nav-link">Contact</a>
+                    <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
@@ -83,38 +120,24 @@
 
 
     <div class="page">
-        <ul class="bar-panel">
-            <li onclick="">Status Weetjes</li>
-            <li onclick="OpenStatusWeetjes()">Weetje aanmaken</li>
-            <li>Ingestuurde weetjes</li>
-            <li>Overzicht weetjes</li>
-            <li>Gebruikers</li>
-        </ul>
 
-    <div class="form weetjes-aanmaken" id="weetjes-aanmaken-form">
-        <i class="fa-solid fa-x" onclick="closeLogin(4)"></i>
-        <h1>Maak een weetje aan!</h1>
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="titel">
-                <label for="titel">Titel</label> <br>
-                <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="titel" id="titel" required=true placeholder="Titel"> 
-            </div><br>
-            <div class="prijs">
-                <label for="prijs">Prijs</label> <br>
-                <ion-icon name="pricetag-outline"></ion-icon>
-                <input type="text" name="prijs" id="prijs" required=true placeholder="10">
-            </div><br>
-            <div class="file">
-                <label for="images" class="drop-container">
-                <span class="drop-title">Drop files here</span>
-                or
-                <input type="file" id="images" name="my_image" required=true>
-                </label>
-            </div> <br>
-            <input type="submit" name="itemSubmit" value="Toevoegen"> <br> <br>
-        </form>
-    </div>
+        <div class="content">
+            <h1>Weetje van de dag!</h1>
+            <div class="box">
+                <div class="content">
+                    <div class="images">
+                        <img src="./assets/images/koningsdag.jpg" alt="Koningsdag">
+                    </div>
+                    <div class="tekst">
+                        <h2 class="titel">Koningsdag</h2>
+                        <p class="date italic">27-05-2023</p>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, sapiente, sint ad dicta quam nulla deleniti perspiciatis ex veniam maxime mollitia error, atque dolorem architecto quod tenetur sunt consequatur consequuntur? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas mollitia quisquam repellat minus enim asperiores, hic quod natus voluptate. Ab pariatur quibusdam necessitatibus quo culpa nesciunt. Corrupti obcaecati natus dolores? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti quidem animi eum atque omnis ea nam in, rerum corporis maxime. Provident perferendis omnis porro eius a. Dolores exercitationem nesciunt recusandae.</p>
+                        <p class="italic">Auteur: Julian Berle</p>
+                        <p class="date italic">28-05-2023</p>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
 
     <div class="footer">
