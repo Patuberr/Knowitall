@@ -1,26 +1,36 @@
 <?php
 session_start();
 
+include_once("./classes/config/database.php");
+
+if(isset($_POST['login_submit'])) {
+    $email = $_POST['email_login'];
+    $password = $_POST["password_login"];
+
+    $query = 'SELECT * FROM account WHERE (email = :email)';
+    $statement = $conn->prepare($query); 
+    $statement->execute([':email' => $email]);  
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+    if (is_array($row)) {
+        if (password_verify($password, $row['userpassword'])){
+            echo "Wachtwoord is juist!";
+        } else {
+            echo "Wachtwoord is onjuist!";
+        }
+    }
+}
+
 if(isset($_POST["register_submit"])) {
     $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST["email"]);
-    $userPassword = htmlspecialchars($_POST["password"]); // Changed variable name to $userPassword
+    $userPassword = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT); // Changed variable name to $userPassword
 
-    $servername = "localhost";
-    $dbUsername = "root"; // Changed variable name to $dbUsername
-    $dbPassword = "";
-    $dbname = "knowitall";
-
-    $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbname);
-
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    $stmt = $conn->prepare("INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')");    /* execute query */
-    $stmt->execute();
-
+    $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
+    $sth = $conn->prepare($sql);
+    $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
 }
+
+?>
 
 ?>
 
@@ -40,13 +50,13 @@ if(isset($_POST["register_submit"])) {
             <a href="#" class="nav-logo">KnowItAll</a>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="./index.php" class="nav-link">Home</a>
+                    <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./weetjes.php" class="nav-link">Weetjes</a>
+                    <a href="/weetjes" class="nav-link">Weetjes</a>
                 </li>
                 <li class="nav-item">
-                    <a href="./contact.php" class="nav-link">Contact</a>
+                    <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
