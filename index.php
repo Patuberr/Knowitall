@@ -2,7 +2,7 @@
 session_start();
 
 $servername = "localhost";
-$dbUsername = "root"; // Changed variable name to $dbUsername
+$dbUsername = "root"; 
 $dbPassword = "";
 $dbname = "knowitall";
 

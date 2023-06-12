@@ -19,7 +19,7 @@ if(isset($_POST["register_submit"])) {
 
     $stmt = $conn->prepare("INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')");    /* execute query */
     $stmt->execute();
-
+}
 
 ?>
 
