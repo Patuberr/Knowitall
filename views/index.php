@@ -1,7 +1,8 @@
 <?php
-// session_start();
+session_start();
 
 include_once("./classes/config/database.php");
+include_once("./classes/config/mail.php");
 
 if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
@@ -29,6 +30,71 @@ if(isset($_POST["register_submit"])) {
     $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
     $sth = $conn->prepare($sql);
     $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
+
+    try {
+	    $mail->isSMTP();
+	    $mail->Host = 'sandbox.smtp.mailtrap.io';
+	    $mail->SMTPAuth = true;
+	    $mail->Username = '9ba08781730507'; // vervang dit door je Mailtrap username
+	    $mail->Password = '907a43412f027a'; // vervang dit door je Mailtrap password
+	    $mail->Port = 2525;
+	    $mail->SMTPSecure = 'tls';
+	    $mail->setFrom('info@knowitall.nl', 'KnowItAll');
+	    $mail->addAddress($email, $username);
+	    $mail->isHTML(true);
+	    $mail->Subject =    'Registratie bij KnowItAll';
+	    $mail->Body    = ' <style>
+        * {
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        .tekst {
+            width: 600px;
+            margin: 0 auto;
+            padding: 0 20px 10px 20px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.25);
+            text-align: center;
+        }
+
+        a {
+                color: #000;
+                margin: 0 auto;
+                padding: 7px 13px;
+                border-radius: 100px;
+                text-decoration: none;
+                border: 3px solid black;
+                transition: .3s ease;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-family: helvetica;
+        }
+        </style>
+
+        <div class="tekst">
+        <h1>KnowItAll</h1>
+        <p>Welkom ' . $username . ',<br> <br>
+        leuk dat je je geregistreerd hebt bij KnowItAll. Klik op de knop hier beneden om weer naar de website te gaan. </p>
+        <a href="http://knowitall.local/" target="_blank">Website</a> <br> <br>
+        KnowItAll team. <br> <br> <br>
+        <footer>&copy 2023 Team zonder GPT</footer>
+        </div>';
+	    $mail->send();
+	    echo "<script>console.log('Bericht is verzonden')</script>";
+	} catch (Exception $e) {
+	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+}
 }
 
 ?>
