@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$dbUsername = "root"; // Changed variable name to $dbUsername
-$dbPassword = "";
-$dbname = "knowitall";
-
-$conn = new PDO("mysql:host=$servername;dbname=$dbname", $dbUsername, $dbPassword);
+include_once("./classes/config/database.php");
 
 if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
@@ -34,16 +29,6 @@ if(isset($_POST["register_submit"])) {
     $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
     $sth = $conn->prepare($sql);
     $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
-
-   
-    // $sql = "INSERT INTO account (username, email, userpassword) VALUES ('$username', '$email', '$userPassword')"; // Updated variable name
-
-    // if (mysqli_query($conn, $sql)) {
-    //     echo "Message inserted successfully";
-    //     header("location: index.php");
-    // } else {
-    //     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    // }
 }
 
 ?>
