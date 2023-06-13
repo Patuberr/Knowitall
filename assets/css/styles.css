@@ -136,8 +136,8 @@ body {
 }
 
 .form i {
-    position: relative;
-    right: -325;
+    position: absolute;
+    right: 10px;
     top: 10px;
 }
 
@@ -302,6 +302,73 @@ body {
     margin-top: 200px;
     text-align: center;
 }
+
+.weetjes-aanmaken .file {
+    border: 3px dotted black; 
+    text-align: center;   
+}
+
+.weetjes-aanmaken .weetje textarea {
+    font-size: 12px;
+    border: none;
+    background-color: transparent;
+    position: relative; 
+    top: -14;
+    left: 20;
+    outline: none;
+}
+
+.status-weetjes, .ingestuurde-weetjes, .overzicht-weetjes, .gebruikers {
+    width: 80%;
+}
+
+.status-weetjes .overzicht, .ingestuurde-weetjes .overzicht, .overzicht-weetjes .overzicht, .gebruikers .overzicht {
+    background-color: #eee;
+}
+
+.status-weetjes .overzicht .status, .ingestuurde-weetjes .overzicht .status, .overzicht-weetjes .overzicht .status, .gebruikers .overzicht .gebruiker {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    text-align: center;
+}
+
+.ingestuurde-weetjes .overzicht .status select {
+    border: 2px solid black;
+}
+
+.overzicht-weetjes .overzicht .status .buttons button, .gebruikers .overzicht .gebruiker .buttons button {
+    padding: 7px 13px;
+    border-radius: 100px;
+    border: none;
+}
+
+.overzicht-weetjes .overzicht .status .buttons button.orange {
+    color: orange;
+    border: 3px solid orange;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.overzicht-weetjes .overzicht .status .buttons button.orange:hover {
+    background-color: orange;
+    color: #fff;
+}
+
+.overzicht-weetjes .overzicht .status .buttons button.red, .gebruikers .overzicht .gebruiker .buttons button.red {
+    color: red;
+    border: 3px solid red;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.overzicht-weetjes .overzicht .status .buttons button.red:hover, .gebruikers .overzicht .gebruiker button.red:hover {
+    background-color: red;
+    color: #fff;
+}
+
 
 
 

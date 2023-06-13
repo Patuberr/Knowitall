@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KnowItAll</title>
 
-    <link rel="stylesheet" href="./assets/css/styles.css">
-    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
     <header class="header">
@@ -84,15 +84,43 @@
 
     <div class="page">
         <ul class="bar-panel">
-            <li onclick="">Status Weetjes</li>
-            <li onclick="OpenStatusWeetjes()">Weetje aanmaken</li>
-            <li>Ingestuurde weetjes</li>
-            <li>Overzicht weetjes</li>
-            <li>Gebruikers</li>
+            <li onclick="openStatusWeetjes()">Status Weetjes</li>
+            <li onclick="OpenWeetjesAanmaken()">Weetje aanmaken</li>
+            <li onclick="openIngestuurdeWeetjes()">Ingestuurde weetjes</li>
+            <li onclick="openOverzichtWeetjes()">Overzicht weetjes</li>
+            <li onclick="openGebruikers()">Gebruikers</li>
         </ul>
 
-    <div class="form weetjes-aanmaken" id="weetjes-aanmaken-form">
+    <div class="form status-weetjes" id="status-weetjes-form">
         <i class="fa-solid fa-x" onclick="closeLogin(4)"></i>
+        <h1>Status van jou weetjes!</h1>
+        <div class="overzicht">
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p style="color: green;">Goedgekeurd</p>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p style="color: red;">Afgekeurd</p>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p style="color: orange;">In afwachting</p>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p style="color: green;">Goedgekeurd</p>
+            </div>
+        </div> <br>
+        
+    </div>
+
+    <div class="form weetjes-aanmaken" id="weetjes-aanmaken-form">
+        <i class="fa-solid fa-x" onclick="closeLogin(5)"></i>
         <h1>Maak een weetje aan!</h1>
         <form action="" method="post" enctype="multipart/form-data">
             <div class="titel">
@@ -100,10 +128,10 @@
                 <ion-icon name="text-outline"></ion-icon>
                 <input type="text" name="titel" id="titel" required=true placeholder="Titel"> 
             </div><br>
-            <div class="prijs">
-                <label for="prijs">Prijs</label> <br>
-                <ion-icon name="pricetag-outline"></ion-icon>
-                <input type="text" name="prijs" id="prijs" required=true placeholder="10">
+            <div class="weetje">
+                <label for="weetje">Weetje</label> <br>
+                <ion-icon name="document-text-outline"></ion-icon> <br>
+                <textarea name="weetje" id="weetje" cols="30" rows="10" placeholder="Weetje"></textarea>
             </div><br>
             <div class="file">
                 <label for="images" class="drop-container">
@@ -115,13 +143,145 @@
             <input type="submit" name="itemSubmit" value="Toevoegen"> <br> <br>
         </form>
     </div>
+
+    <div class="form ingestuurde-weetjes" id="ingestuurde-weetjes-form">
+        <i class="fa-solid fa-x" onclick="closeLogin(6)"></i>
+        <h1>Status van jou weetjes!</h1>
+        <div class="overzicht">
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Julian Berle</p>
+                <select name="status-geven" id="status-geven">
+                    <option value="afwachting">In afwacthing</option>
+                    <option value="goedgekeurd">Goedkeuren</option>
+                    <option value="afgekeurd">Afkeuren</option>
+                </select>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Jeroen van Ark</p>
+                <select name="status-geven" id="status-geven">
+                    <option value="afwachting">In afwacthing</option>
+                    <option value="goedgekeurd">Goedkeuren</option>
+                    <option value="afgekeurd">Afkeuren</option>
+                </select>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Patrick van Dijk</p>
+                <select name="status-geven" id="status-geven">
+                    <option value="afwachting">In afwacthing</option>
+                    <option value="goedgekeurd">Goedkeuren</option>
+                    <option value="afgekeurd">Afkeuren</option>
+                </select>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Efe Bakir</p>
+                <select name="status-geven" id="status-geven">
+                    <option value="afwachting">In afwacthing</option>
+                    <option value="goedgekeurd">Goedkeuren</option>
+                    <option value="afgekeurd">Afkeuren</option>
+                </select>
+            </div>
+        </div> <br>
+        
+    </div>
+
+    <div class="form overzicht-weetjes" id="overzicht-weetjes-form">
+        <i class="fa-solid fa-x" onclick="closeLogin(7)"></i>
+        <h1>Overzicht van alle weetjes!</h1>
+        <div class="overzicht">
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Julian Berle</p>
+                <div class="buttons">
+                    <button class="orange">Bewerken</button>
+                    <button class="red">Verwijder</button>
+                </div>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Jeroen van Ark</p>
+                <div class="buttons">
+                    <button class="orange">Bewerken</button>
+                    <button class="red">Verwijder</button>
+                </div>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Patrick van Dijk</p>
+                <div class="buttons">
+                    <button class="orange">Bewerken</button>
+                    <button class="red">Verwijder</button>
+                </div>
+            </div>
+            <div class="status">
+                <p>Koningsdag</p>
+                <p>20-02-2023</p>
+                <p>Efe Bakir</p>
+                <div class="buttons">
+                    <button class="orange">Bewerken</button>
+                    <button class="red">Verwijder</button>
+                </div>
+            </div>
+        </div> <br>
+        
+    </div>
+
+    <div class="form gebruikers" id="gebruikers-form">
+        <i class="fa-solid fa-x" onclick="closeLogin(8)"></i>
+        <h1>Overzicht van alle weetjes!</h1>
+        <div class="overzicht">
+            <div class="gebruiker">
+                <p>Julian Berle</p>
+                <p>Beheerder</p>
+                <p>577273@edu.rocmn.nl</p>
+                <div class="buttons">
+                    <button class="red">Verbannen</button>
+                </div>
+            </div>
+            <div class="gebruiker">
+                <p>Jeroen van Ark</p>
+                <p>Admin</p>
+                <p>577273@edu.rocmn.nl</p>
+                <div class="buttons">
+                    <button class="red">Verbannen</button>
+                </div>
+            </div>
+            <div class="gebruiker">
+                <p>Patrick van Dijk</p>
+                <p>Gebruiker</p>
+                <p>577273@edu.rocmn.nl</p>
+                <div class="buttons">
+                    <button class="red">Verbannen</button>
+                </div>            
+            </div>
+            <div class="gebruiker">
+                <p>Efe Bakir</p>
+                <p>Gebruiker</p>
+                <p>577273@edu.rocmn.nl</p>
+                <div class="buttons">
+                    <button class="red">Verbannen</button>
+                </div>
+            </div>
+        </div> <br>
+        
+    </div>
     </div>
 
     <div class="footer">
         <p class="italic">© 2023 Team zonder GPT</p>
     </div>
     <script src="https://kit.fontawesome.com/e6d99cb95a.js" crossorigin="anonymous"></script>
-    <script src="./assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
