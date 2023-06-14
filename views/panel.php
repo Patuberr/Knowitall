@@ -1,3 +1,14 @@
+<?php
+session_start();
+include_once("../classes/config/database.php");
+
+
+$credentialsUser= "SELECT username, email, permission FROM account";
+$email = "SELECT username FROM email";
+
+?>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -196,6 +207,7 @@
         <i class="fa-solid fa-x" onclick="closeLogin(7)"></i>
         <h1>Overzicht van alle weetjes!</h1>
         <div class="overzicht">
+            
             <div class="status">
                 <p>Koningsdag</p>
                 <p>20-02-2023</p>
@@ -240,38 +252,22 @@
         <i class="fa-solid fa-x" onclick="closeLogin(8)"></i>
         <h1>Overzicht van alle weetjes!</h1>
         <div class="overzicht">
-            <div class="gebruiker">
-                <p>Julian Berle</p>
-                <p>Beheerder</p>
-                <p>577273@edu.rocmn.nl</p>
-                <div class="buttons">
-                    <button class="red">Verbannen</button>
-                </div>
-            </div>
-            <div class="gebruiker">
-                <p>Jeroen van Ark</p>
-                <p>Admin</p>
-                <p>577273@edu.rocmn.nl</p>
-                <div class="buttons">
-                    <button class="red">Verbannen</button>
-                </div>
-            </div>
-            <div class="gebruiker">
-                <p>Patrick van Dijk</p>
-                <p>Gebruiker</p>
-                <p>577273@edu.rocmn.nl</p>
-                <div class="buttons">
-                    <button class="red">Verbannen</button>
-                </div>            
-            </div>
-            <div class="gebruiker">
-                <p>Efe Bakir</p>
-                <p>Gebruiker</p>
-                <p>577273@edu.rocmn.nl</p>
-                <div class="buttons">
-                    <button class="red">Verbannen</button>
-                </div>
-            </div>
+
+        <?php
+            $stmn = $conn->prepare($credentialsUser);
+            $stmn->execute();
+            while ($row = $stmn->fetch()) {
+        echo "<div class='gebruiker'>";
+        echo "<p>Name: " . $row["username"]. "</p>";
+        echo "<p>Permission: " .$row["permission"]. "</p>";
+        echo "<p>Email: " . $row["email"]. "</p>";
+        echo "<div class='buttons'>";
+        echo"<button class='red'>Verbannen</button>";
+        echo "</div>";
+        echo "</div>";
+      }
+      ?>
+           
         </div> <br>
         
     </div>
