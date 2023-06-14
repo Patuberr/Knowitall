@@ -34,8 +34,8 @@ if(isset($_POST["register_submit"])) {
 	    $mail->isSMTP();
 	    $mail->Host = 'sandbox.smtp.mailtrap.io';
 	    $mail->SMTPAuth = true;
-	    $mail->Username = '9ba08781730507'; // vervang dit door je Mailtrap username
-	    $mail->Password = '907a43412f027a'; // vervang dit door je Mailtrap password
+        $mail->Username = '1d9c33c3499beb';
+        $mail->Password = '80e4a07165d43f';
 	    $mail->Port = 2525;
 	    $mail->SMTPSecure = 'tls';
 	    $mail->setFrom('info@knowitall.nl', 'KnowItAll');

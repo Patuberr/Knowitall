@@ -1,4 +1,11 @@
 <?php 
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+	 
+require 'vendor/autoload.php';
+
+$mail = new PHPMailer(true);
 //lees request uit
 $request = $_SERVER['REQUEST_URI'];
 $url = parse_url($request);
