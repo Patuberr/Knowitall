@@ -23,7 +23,7 @@ switch($url["path"]) {
         require __DIR__ .'/views/weetjes.php';
         break;
     case "/panel":
-        require __DIR__ .'/views/panel.html';
+        require __DIR__ .'/views/panel.php';
         break;
     default:
         http_response_code(404);

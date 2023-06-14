@@ -1,10 +1,55 @@
 <?php
 session_start();
-include_once("../classes/config/database.php");
+include_once("./classes/config/database.php");
 
 
 $credentialsUser= "SELECT username, email, permission FROM account";
-$email = "SELECT username FROM email";
+
+if (isset($_POST['itemSubmit'])) {
+    $img_name = $_FILES['my_image']['name'];
+    $img_size = $_FILES['my_image']['size'];
+    $tmp_name = $_FILES['my_image']['tmp_name'];
+    $error = $_FILES['my_image']['error'];
+
+    if ( $error === 0) {
+        if ($img_size > 9999999999999999999999) {
+            echo "Sorry, your file is too large";
+        } else {
+            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+            $img_ex_lc = strtolower($img_ex);
+
+            $allowed_exs = ['jpg', 'jpeg', 'png'];
+            if (in_array($img_ex_lc, $allowed_exs)) {
+                    $new_img_name = uniqid("IMG-", true). '.' . $img_ex_lc;
+                    $img_upload_path = './assets/images/weetjes/'.$new_img_name;
+                    move_uploaded_file($tmp_name, $img_upload_path);
+            } else {
+                echo "You can't upload files of this type";
+            }
+        } 
+    } else {
+        echo "Unknow error occured. Try again later";
+    }
+
+    $messageData = [
+        'post_date' => date("Y/m/d"),
+        'title' => htmlspecialchars($_POST['titel']),
+        'approval' => 0,
+        'description' => htmlspecialchars($_POST['weetje']),
+        'fact_date' => htmlspecialchars($_POST['weetje-datum']),
+        'account_account_id' => 70,
+        'image' => $new_img_name
+    ];
+
+    $insert = "INSERT INTO message (post_date, title, approval, description, fact_date, image, account_account_id)
+    values(:post_date, :title, :approval, :description, :fact_date, :image, :account_account_id)";
+
+    $statement = $conn->prepare($insert);
+
+    $statement->execute($messageData);
+} else {
+    echo "Ging iets fout";
+}
 
 ?>
 
@@ -143,6 +188,11 @@ $email = "SELECT username FROM email";
                 <label for="weetje">Weetje</label> <br>
                 <ion-icon name="document-text-outline"></ion-icon> <br>
                 <textarea name="weetje" id="weetje" cols="30" rows="10" placeholder="Weetje"></textarea>
+            </div><br>
+            <div class="fact_date">
+                <label for="weetje-datum">Datum weetje</label> <br>
+                <ion-icon name="calendar-outline"></ion-icon>
+                <input type="date" name="weetje-datum" id="weetje-datum" required=true> 
             </div><br>
             <div class="file">
                 <label for="images" class="drop-container">
