@@ -2,8 +2,9 @@
 session_start();
 include_once("./classes/config/database.php");
 
-
 $credentialsUser= "SELECT username, email, permission FROM account";
+
+echo $_SESSION['account_id'] . $_SESSION['username'] . $_SESSION['permission'] . $_SESSION['email'] . $_SESSION['logedin'];
 
 if (isset($_POST['itemSubmit'])) {
     $img_name = $_FILES['my_image']['name'];
@@ -137,15 +138,38 @@ if (isset($_POST['itemSubmit'])) {
     </div>
 
 
+    <?php 
 
+        if ($_SESSION['permission'] == 1) {
+            echo "
+                <ul class='bar-panel'>
+                    <li onclick='openStatusWeetjes()'>Status Weetjes</li>
+                    <li onclick='OpenWeetjesAanmaken()'>Weetje aanmaken</li>
+                </ul>
+        ";
+        } elseif ($_SESSION['permission'] == 2) {
+            echo "
+                <ul class='bar-panel'>
+                    <li onclick='openStatusWeetjes()'>Status Weetjes</li>
+                    <li onclick='OpenWeetjesAanmaken()'>Weetje aanmaken</li>
+                    <li onclick='openIngestuurdeWeetjes()'>Ingestuurde weetjes</li>
+                    <li onclick='openOverzichtWeetjes()'>Overzicht weetjes</li>
+                    <li onclick='openGebruikers()'>Gebruikers</li>
+                </ul>        
+        ";
+        } elseif ($_SESSION['permission'] == 3) {
+            echo "
+                <ul class='bar-panel'>
+                    <li onclick='openStatusWeetjes()'>Status Weetjes</li>
+                    <li onclick='OpenWeetjesAanmaken()'>Weetje aanmaken</li>
+                    <li onclick='openIngestuurdeWeetjes()'>Ingestuurde weetjes</li>
+                    <li onclick='openOverzichtWeetjes()'>Overzicht weetjes</li>
+                    <li onclick='openGebruikers()'>Gebruikers</li>
+                </ul>        
+        ";
+        }
+    ?>
     <div class="page">
-        <ul class="bar-panel">
-            <li onclick="openStatusWeetjes()">Status Weetjes</li>
-            <li onclick="OpenWeetjesAanmaken()">Weetje aanmaken</li>
-            <li onclick="openIngestuurdeWeetjes()">Ingestuurde weetjes</li>
-            <li onclick="openOverzichtWeetjes()">Overzicht weetjes</li>
-            <li onclick="openGebruikers()">Gebruikers</li>
-        </ul>
 
     <div class="form status-weetjes" id="status-weetjes-form">
         <i class="fa-solid fa-x" onclick="closeLogin(4)"></i>
