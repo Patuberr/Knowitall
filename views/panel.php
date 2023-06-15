@@ -79,9 +79,6 @@ if (isset($_POST['itemSubmit'])) {
                 <li class="nav-item">
                     <a href="/contact" class="nav-link">Contact</a>
                 </li>
-                <li class="nav-item">
-                    <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
-                </li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
@@ -90,53 +87,6 @@ if (isset($_POST['itemSubmit'])) {
             </div>
         </nav>
     </header>
-
-
-    <div class="form login" id="login_form">
-        <i class="fa-solid fa-x" onclick="closeLogin(1)"></i>
-        <h1 class="logo">KnowItAll</h1>
-        <form action="" method="post">
-            <div class="email">
-                <label for="email_login">Email Adress</label> <br>
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" name="email_login" id="email_login" required=true placeholder="username@mail.com">
-            </div> <br>
-            <div class="password">
-                <label for="password_login">Password</label> <br>
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
-                <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
-            </div> <br>
-            <input type="submit" name="login_submit" value="Inloggen"> <br>
-            <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
-        </form>
-    </div>
-
-    <div class="form register" id="register_form">
-        <i class="fa-solid fa-x" onclick="closeLogin(2)"></i>
-        <h1>Register</h1>
-        <form action="" method="post">
-            <div class="username">
-                <label for="username">username</label> <br>
-                <ion-icon name="text-outline"></ion-icon>
-                <input type="text" name="username" id="username" required=true placeholder="username">
-            </div><br>
-            <div class="mail">
-                <label for="email">E-mail adress</label> <br>
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" name="email" id="email" required=true placeholder="username@mail.com">
-            </div><br>
-            <div class="password">
-                <label for="password">Password</label> <br>
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" name="password" id="id_password_2" required=true placeholder="············">
-                <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
-            </div><br>
-
-            <input type="submit" name="register_submit" value="Registreren"> <br> <br>
-        </form>
-    </div>
-
 
     <?php 
 
