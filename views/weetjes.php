@@ -14,7 +14,12 @@ if(isset($_POST['login_submit'])) {
     $row = $statement->fetch(PDO::FETCH_ASSOC);
     if (is_array($row)) {
         if (password_verify($password, $row['userpassword'])){
-            echo "Wachtwoord is juist!";
+            $_SESSION['account_id'] = $row['account_id'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['permission'] = $row['permission'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['logedin'] = true;
+            header("Location: /panel");
         } else {
             echo "Wachtwoord is onjuist!";
         }
