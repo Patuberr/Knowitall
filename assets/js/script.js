@@ -31,7 +31,6 @@ function login() {
     // } else if(getCookie("Login")){
     //     window.location.href = "./myaccount/";
     // }
-
     if (document.getElementById("login_form").style.display == "block") {
         document.querySelector(".form.login").style.animation = "popout .3s";
         setTimeout(() => {  document.querySelector(".form.login").style.display = "none"; }, 290);

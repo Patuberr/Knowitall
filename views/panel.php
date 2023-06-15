@@ -38,7 +38,7 @@ if (isset($_POST['itemSubmit'])) {
         'approval' => 0,
         'description' => htmlspecialchars($_POST['weetje']),
         'fact_date' => htmlspecialchars($_POST['weetje-datum']),
-        'account_account_id' => 70,
+        'account_account_id' => 73,
         'image' => $new_img_name
     ];
 
@@ -125,26 +125,36 @@ if (isset($_POST['itemSubmit'])) {
         <i class="fa-solid fa-x" onclick="closeLogin(4)"></i>
         <h1>Status van jou weetjes!</h1>
         <div class="overzicht">
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p style="color: green;">Goedgekeurd</p>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p style="color: red;">Afgekeurd</p>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p style="color: orange;">In afwachting</p>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p style="color: green;">Goedgekeurd</p>
-            </div>
+            <?php 
+                $sessionAccountId = $_SESSION['account_id'];
+                $query = $conn->query("SELECT * FROM message WHERE account_account_id = $sessionAccountId");
+            
+                while($row = $query->fetch()) {
+                    // echo $row['message_id'] ." " . $row['post_date'] . " " . $row['approval'] . " " . $row['description'] . " " . $row['fact_date'] . " " . $row['image'] . " " . $row['account_account_id'];
+                    switch ($row['approval']) {
+                        case 0:
+                            $styleColor = "orange";
+                            $approvalName = "In afwachting";
+                            break;
+                        case 1:
+                            $styleColor = "red";
+                            $approvalName = "Afgekeurd";
+                            break;
+                        case 2:
+                            $styleColor = "green";
+                            $approvalName = "Goedgekeurd";
+                            break;
+                        default:
+                            echo "<script>console.log('Er ging iets fout met de kleuren')";
+                    }
+                    echo "
+                    <div class='status'>
+                        <p>" . $row['title'] . "</p>
+                        <p>" . $row['post_date'] . "</p>
+                        <p style='color:" . $styleColor . "';>" . $approvalName . "</p>
+                    </div>";
+                };
+            ?>
         </div> <br>
         
     </div>
