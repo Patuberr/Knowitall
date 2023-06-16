@@ -18,7 +18,7 @@ function closeMenu() {
 
 function login(session) {
     if (session == 1) {
-        // window.location.href = '/panel';
+        window.location.href = '/panel';
     } else {
         if (document.getElementById("login_form").style.display == "block") {
             document.querySelector(".form.login").style.animation = "popout .3s";

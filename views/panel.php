@@ -2,15 +2,16 @@
 session_start();
 include_once("./classes/config/database.php");
 
-if (!isset($_SESSION['logedin'])) {
-    header('location: /');
+if ($_SESSION['logedin'] == 0) {
+    header("Location: /");
 
 } else {
-
 }
 
+// var_dump($_SESSION);
 
-echo $_SESSION['account_id'] . $_SESSION['username'] . $_SESSION['permission'] . $_SESSION['email'] . $_SESSION['logedin'];
+// echo $_SESSION['logedin'];
+// echo $_SESSION['account_id'] . $_SESSION['username'] . $_SESSION['permission'] . $_SESSION['email'] . $_SESSION['logedin'];
 
 if (isset($_GET['logout'])) {
     session_destroy();
@@ -59,6 +60,70 @@ if (isset($_POST['itemSubmit'])) {
     $statement = $conn->prepare($insert);
 
     $statement->execute($messageData);
+
+    try {
+	    $mail->isSMTP();
+	    $mail->Host = 'sandbox.smtp.mailtrap.io';
+	    $mail->SMTPAuth = true;
+        $mail->Username = '1d9c33c3499beb';
+        $mail->Password = '80e4a07165d43f';
+	    $mail->Port = 2525;
+	    $mail->SMTPSecure = 'tls';
+	    $mail->setFrom($_SESSION['email'], $_SESSION['username']);
+	    $mail->addAddress('admin@knowitall.nl', 'Admin');
+	    $mail->isHTML(true);
+	    $mail->Subject =    'Nieuw weetje!';
+	    $mail->Body    = ' <style>
+        * {
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        .tekst {
+            width: 600px;
+            margin: 0 auto;
+            padding: 0 20px 10px 20px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.25);
+            text-align: center;
+        }
+
+        a {
+                color: #000;
+                margin: 0 auto;
+                padding: 7px 13px;
+                border-radius: 100px;
+                text-decoration: none;
+                border: 3px solid black;
+                transition: .3s ease;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-family: helvetica;
+        }
+        </style>
+
+        <div class="tekst">
+        <h1>KnowItAll</h1>
+        <p>' . $_SESSION['username'] . ' heeft een weetje achtergelaten!<br> <br>
+        Bekijk de website om het weetje te beoordelen.</p>
+        <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br> <br>
+        <footer>&copy 2023 Team zonder GPT</footer>
+        </div>';
+	    $mail->send();
+	    echo "<script>console.log('Bericht is verzonden')</script>";
+	} catch (Exception $e) {
+	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+    }
 } else {
     echo "Ging iets fout";
 }
@@ -205,48 +270,26 @@ if (isset($_POST['itemSubmit'])) {
 
     <div class="form ingestuurde-weetjes" id="ingestuurde-weetjes-form">
         <i class="fa-solid fa-x" onclick="closeLogin(6)"></i>
-        <h1>Status van jou weetjes!</h1>
+        <h1>Ingestuurde weetjes!</h1>
         <div class="overzicht">
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Julian Berle</p>
-                <select name="status-geven" id="status-geven">
-                    <option value="afwachting">In afwacthing</option>
-                    <option value="goedgekeurd">Goedkeuren</option>
-                    <option value="afgekeurd">Afkeuren</option>
-                </select>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Jeroen van Ark</p>
-                <select name="status-geven" id="status-geven">
-                    <option value="afwachting">In afwacthing</option>
-                    <option value="goedgekeurd">Goedkeuren</option>
-                    <option value="afgekeurd">Afkeuren</option>
-                </select>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Patrick van Dijk</p>
-                <select name="status-geven" id="status-geven">
-                    <option value="afwachting">In afwacthing</option>
-                    <option value="goedgekeurd">Goedkeuren</option>
-                    <option value="afgekeurd">Afkeuren</option>
-                </select>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Efe Bakir</p>
-                <select name="status-geven" id="status-geven">
-                    <option value="afwachting">In afwacthing</option>
-                    <option value="goedgekeurd">Goedkeuren</option>
-                    <option value="afgekeurd">Afkeuren</option>
-                </select>
-            </div>
+        <?php 
+                $sessionAccountId = $_SESSION['account_id'];
+                $query = $conn->query("SELECT * FROM message WHERE approval = 0 ORDER BY message_id DESC");
+            
+                while($row = $query->fetch()) {
+                    echo "
+                    <div class='status'>
+                        <p>" . $row['title'] . "</p>
+                        <p>" . $row['post_date'] . "</p>
+                        <p>" . $row['account_account_id'] . "</p>
+                        <select name='status-geven' id='status-geven'>
+                            <option value='afwachting'>In afwacthing</option>
+                            <option value='goedgekeurd'>Goedkeuren</option>
+                            <option value='afgekeurd'>Afkeuren</option>
+                        </select>
+                    </div>";
+                };
+            ?>
         </div> <br>
         
     </div>
@@ -298,7 +341,7 @@ if (isset($_POST['itemSubmit'])) {
 
     <div class="form gebruikers" id="gebruikers-form">
         <i class="fa-solid fa-x" onclick="closeLogin(8)"></i>
-        <h1>Overzicht van alle weetjes!</h1>
+        <h1>Gebruikers!</h1>
         <div class="overzicht">
 
         <?php
