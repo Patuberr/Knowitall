@@ -4,6 +4,12 @@ session_start();
 include_once("./classes/config/database.php");
 include_once("./classes/config/mail.php");
 
+if(!isset($_SESSION['logedin'])) {
+    $_SESSION['logedin'] = false;
+} else {
+    // return();
+}
+
 if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
     $password = $_POST["password_login"];
@@ -128,7 +134,7 @@ if(isset($_POST["register_submit"])) {
                     <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
+                    <a onclick="login(<?php echo $_SESSION['logedin'] ?>)" class="nav-link"><i class="fa-solid fa-person"></i></a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -154,7 +160,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="submit" value="Inloggen"> <br>
+            <input type="submit" name="login_submit" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
@@ -190,7 +196,7 @@ if(isset($_POST["register_submit"])) {
         <div class="content">
             <h1>Alle weetjes!</h1>
                 <?php
-                    $query = $conn->query("SELECT * FROM message ORDER BY message_id DESC");
+                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id DESC");
             
                     while($row = $query->fetch()) {
                         if ($row == 0) {

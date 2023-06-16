@@ -4,6 +4,12 @@ session_start();
 include_once("./classes/config/database.php");
 include_once("./classes/config/mail.php");
 
+if(!isset($_SESSION['logedin'])) {
+    $_SESSION['logedin'] = false;
+} else {
+    // return();
+}
+
 if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
     $password = $_POST["password_login"];
@@ -131,7 +137,7 @@ if(isset($_POST["register_submit"])) {
                     <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
+                    <a onclick="login(<?php echo $_SESSION['logedin'] ?>)" class="nav-link"><i class="fa-solid fa-person"></i></a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">

@@ -16,33 +16,22 @@ function closeMenu() {
     navMenu.classList.remove("active");
 }
 
-function login() {
-
-
-    // if(getCookie("Login-admin")) {
-    //     const response = confirm("Hi I see this is an admin login, do you want to go to your user panel or to the admin panel. Click 'OK' to go to the admin panel. Click on 'Cancel' to go to the user panel.");
-
-
-    //     if (response) {
-    //         window.location.href = "./panel/";
-    //     } else {
-    //         window.location.href = "./myaccount/";
-    //     }
-    // } else if(getCookie("Login")){
-    //     window.location.href = "./myaccount/";
-    // }
-    if (document.getElementById("login_form").style.display == "block") {
-        document.querySelector(".form.login").style.animation = "popout .3s";
-        setTimeout(() => {  document.querySelector(".form.login").style.display = "none"; }, 290);
-    } else if(document.getElementById("register_form").style.display == "block") {
-        document.getElementById("register_form").style.animation = "popout .3s";
-        setTimeout(() => {document.getElementById("register_form").style.display = "none"; }, 290);
+function login(session) {
+    if (session == 1) {
+        // window.location.href = '/panel';
     } else {
-        document.getElementById("login_form").style.display = "block";
-        document.getElementById("register_form").style.display = "none";
-        document.getElementById("login_form").style.animation = "popup .3s";
+        if (document.getElementById("login_form").style.display == "block") {
+            document.querySelector(".form.login").style.animation = "popout .3s";
+            setTimeout(() => {  document.querySelector(".form.login").style.display = "none"; }, 290);
+        } else if(document.getElementById("register_form").style.display == "block") {
+            document.getElementById("register_form").style.animation = "popout .3s";
+            setTimeout(() => {document.getElementById("register_form").style.display = "none"; }, 290);
+        } else {
+            document.getElementById("login_form").style.display = "block";
+            document.getElementById("register_form").style.display = "none";
+            document.getElementById("login_form").style.animation = "popup .3s";
+        }
     }
-
 };
 
 function openRegister() {

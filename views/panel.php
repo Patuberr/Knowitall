@@ -2,9 +2,20 @@
 session_start();
 include_once("./classes/config/database.php");
 
-$credentialsUser= "SELECT username, email, permission FROM account";
+if (!isset($_SESSION['logedin'])) {
+    header('location: /');
+
+} else {
+
+}
+
 
 echo $_SESSION['account_id'] . $_SESSION['username'] . $_SESSION['permission'] . $_SESSION['email'] . $_SESSION['logedin'];
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: /");
+}
 
 if (isset($_POST['itemSubmit'])) {
     $img_name = $_FILES['my_image']['name'];
@@ -38,7 +49,7 @@ if (isset($_POST['itemSubmit'])) {
         'approval' => 0,
         'description' => htmlspecialchars($_POST['weetje']),
         'fact_date' => htmlspecialchars($_POST['weetje-datum']),
-        'account_account_id' => 73,
+        'account_account_id' => $_SESSION['account_id'],
         'image' => $new_img_name
     ];
 
@@ -78,6 +89,9 @@ if (isset($_POST['itemSubmit'])) {
                 </li>
                 <li class="nav-item">
                     <a href="/contact" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/panel?logout" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i></a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -288,6 +302,7 @@ if (isset($_POST['itemSubmit'])) {
         <div class="overzicht">
 
         <?php
+        $credentialsUser= "SELECT username, email, permission FROM account";
             $stmn = $conn->prepare($credentialsUser);
             $stmn->execute();
             while ($row = $stmn->fetch()) {

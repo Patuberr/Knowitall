@@ -4,9 +4,17 @@ session_start();
 include_once("./classes/config/database.php");
 include_once("./classes/config/mail.php");
 
+if(!isset($_SESSION['logedin'])) {
+    $_SESSION['logedin'] = false;
+} else {
+    // return();
+}
+
 if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
     $password = $_POST["password_login"];
+
+    // echo "dit werkt";
 
     $query = 'SELECT * FROM account WHERE (email = :email)';
     $statement = $conn->prepare($query); 
@@ -19,6 +27,7 @@ if(isset($_POST['login_submit'])) {
             $_SESSION['permission'] = $row['permission'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['logedin'] = true;
+            // echo "Dit werkt!";
             header("Location: /panel");
         } else {
             echo "Wachtwoord is onjuist!";
@@ -130,7 +139,7 @@ if(isset($_POST["register_submit"])) {
                     <a href="/contact" class="nav-link">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a onclick="login()" class="nav-link"><i class="fa-solid fa-person"></i></a>
+                    <a onclick="login(<?php echo $_SESSION['logedin'] ?>)" class="nav-link"><i class="fa-solid fa-person"></i></a>
                 </li>
             </ul>
             <div class="hamburger" id="hamburger">
@@ -156,7 +165,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="submit" value="Inloggen"> <br>
+            <input type="submit" name="login_submit" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
