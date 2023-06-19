@@ -391,6 +391,5 @@ body {
 }
 #descriptionText {
     color: red;
-    background-color: red;
-    max-width: 100px;
+    max-width: 400px;
 }
