@@ -280,13 +280,17 @@ if (isset($_POST['itemSubmit'])) {
                     echo "
                     <div class='status'>
                         <p>" . $row['title'] . "</p>
+                        <p id = 'descriptionText'>" . $row['description'] . "</p>
                         <p>" . $row['post_date'] . "</p>
                         <p>" . $row['account_account_id'] . "</p>
+                        <div class='selectButtons'>
                         <select name='status-geven' id='status-geven'>
                             <option value='afwachting'>In afwacthing</option>
                             <option value='goedgekeurd'>Goedkeuren</option>
                             <option value='afgekeurd'>Afkeuren</option>
                         </select>
+                        <button name='submit'>Bevestig</button>
+                        </div>
                     </div>";
                 };
             ?>

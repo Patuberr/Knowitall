@@ -389,3 +389,8 @@ body {
     padding-bottom: 0;
     margin-bottom: 0;
 }
+#descriptionText {
+    color: red;
+    background-color: red;
+    max-width: 100px;
+}
