@@ -200,20 +200,38 @@ if(isset($_POST["register_submit"])) {
 
         <div class="content">
             <h1>Weetje van de dag!</h1>
-            <div class="box">
-                <div class="content">
-                    <div class="images">
-                        <img src="./assets/images/koningsdag.jpg" alt="Koningsdag">
-                    </div>
-                    <div class="tekst">
-                        <h2 class="titel">Koningsdag</h2>
-                        <p class="date italic">27-05-2023</p>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem, sapiente, sint ad dicta quam nulla deleniti perspiciatis ex veniam maxime mollitia error, atque dolorem architecto quod tenetur sunt consequatur consequuntur? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas mollitia quisquam repellat minus enim asperiores, hic quod natus voluptate. Ab pariatur quibusdam necessitatibus quo culpa nesciunt. Corrupti obcaecati natus dolores? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti quidem animi eum atque omnis ea nam in, rerum corporis maxime. Provident perferendis omnis porro eius a. Dolores exercitationem nesciunt recusandae.</p>
-                        <p class="italic">Auteur: Julian Berle</p>
-                        <p class="date italic">28-05-2023</p>
-                    </div>
-                </div>
-            </div>
+            <?php
+                    $date = date("Y-m-d");
+                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND fact_date = '$date' ORDER BY message_id DESC");
+                    if ($query->rowCount() === 0) {
+                        echo "<div class='no-sql'>
+                            <h3>Er is voor vandaag nog geen weetje</h2>
+                            <p>Login om een weetje aan te maken of klik <a href='/weetjes'>hier</a> om alle weetjes te zien.</p>
+                            <p>KnowItAll Team</p>
+                        </div>";
+                        // exit();
+                    } else {
+                        while($row = $query->fetch()) {                        
+                            echo "
+                            <div class='box'>
+                                <div class='content'> 
+                                    <div class='images'>
+                                        <img src='./assets/images/weetjes/" . $row['image'] . "' alt='" . $row['image'] . "'>
+                                    </div>
+                                    <div class='tekst'>
+                                        <h2 class='titel'>" . $row['title'] . "</h2>
+                                        <p class='date italic'>" . $row['fact_date'] . "</p>
+                                        <p>" . $row['description'] . "</p>
+                                        <p class='italic'>Auteur: " . $row['account_account_id'] . "</p>
+                                        <p class='date italic'>" . $row['post_date'] . "</p>
+                                    </div>
+                                </div>
+                            </div>";
+                        }
+                    }
+            
+                    
+            ?>
         </div> 
     </div>
 
