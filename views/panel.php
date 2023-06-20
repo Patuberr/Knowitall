@@ -275,7 +275,31 @@ if (isset($_POST['itemSubmit'])) {
         <?php 
                 $sessionAccountId = $_SESSION['account_id'];
                 $query = $conn->query("SELECT * FROM message WHERE approval = 0 ORDER BY message_id DESC");
-            
+                if(isset($_POST['approvalSubmit'])){
+                    $message_id = $_GET["status"];
+                    echo $message_id;
+                   # $afwachting =  
+                    $approval = $_POST["status-geven"];
+                    echo "$approval";
+                    switch($approval) {
+                        case "goedgekeurd":
+                            $approvalnummer = 2;
+                            break;
+                        case "afgekeurd":
+                            $approvalnummer = 1;
+                            break;
+                        case "afwachting":
+                            $approvalnummer = 0;
+                            break;
+                    }
+                    #echo "$approvalnummer";
+
+                    $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
+                    $sth = $conn->prepare($sql);
+                    $sth->execute();
+                    header('Location: http://knowitall.local/invis.php');
+                    
+                }
                 while($row = $query->fetch()) {
                     echo "
                     <div class='status'>
@@ -284,12 +308,14 @@ if (isset($_POST['itemSubmit'])) {
                         <p>" . $row['post_date'] . "</p>
                         <p>" . $row['account_account_id'] . "</p>
                         <div class='selectButtons'>
+                        <form method='post' action='?status=" . $row['message_id'] ." '>
                         <select name='status-geven' id='status-geven'>
-                            <option value='afwachting'>In afwacthing</option>
-                            <option value='goedgekeurd'>Goedkeuren</option>
-                            <option value='afgekeurd'>Afkeuren</option>
+                            <option name='afwachting' value='afwachting'>In afwacthing</option>
+                            <option name='goedgekeurd' value='goedgekeurd'>Goedkeuren</option>
+                            <option name='afgekeurd' value='afgekeurd'>Afkeuren</option>
                         </select>
-                        <button name='submit'>Bevestig</button>
+                        <input  type='submit' name='approvalSubmit' value='Bevestig' onclick='redirectHeader'></input>
+                        </form>
                         </div>
                     </div>";
                 };
