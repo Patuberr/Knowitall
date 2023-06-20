@@ -35,6 +35,84 @@ if(isset($_POST['login_submit'])) {
     }
 }
 
+if(isset($_POST['contact_submit'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Port = 2525;
+        $mail->Username = '1d9c33c3499beb';
+        $mail->Password = '80e4a07165d43f';
+	    $mail->SMTPSecure = 'tls';
+	    $mail->setFrom($email, $name);
+	    $mail->addAddress('info@knowitall.nl', 'KnowItAll');
+	    $mail->isHTML(true);
+	    $mail->Subject =    $subject;
+	    $mail->Body    = ' <style>
+        * {
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        .tekst {
+            width: 600px;
+            margin: 0 auto;
+            padding: 0 20px 10px 20px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.25);
+            text-align: left;
+        }
+
+        a {
+                color: #000;
+                margin: 0 auto;
+                padding: 7px 13px;
+                border-radius: 100px;
+                text-decoration: none;
+                border: 3px solid black;
+                transition: .3s ease;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-family: helvetica;
+        }
+
+        footer {
+            text-align: center;
+        }
+        </style>
+
+        <div class="tekst">
+        <p>E-mail: ' . $email . '</p>
+        <p>Naam: ' . $name . '</p>
+        <p>Datum: ' . date('D d M Y') . '</p>
+        <p>Onderwerp: ' . $subject . '</p>
+        <p>Bericht: ' . $message . '</p><br> <br> <br>
+        <footer>&copy 2023 Team zonder GPT</footer>
+        </div>';
+	    $mail->send();
+	    echo "<script>console.log('Bericht is verzonden')</script>";
+	} catch (Exception $e) {
+	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+}
+
+
+}
+
 if(isset($_POST["register_submit"])) {
     $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST["email"]);
@@ -200,12 +278,12 @@ if(isset($_POST["register_submit"])) {
             <h1>Contact</h1>
             <div class="box">
                 <h2 class="contact titel">Verstuur ons een bericht!</h2>
-                <form action="">
+                <form method="post">
                     <input type="text" id="name" name="name" placeholder="Naam"> <br>
                     <input type="email" id="email" name="email" placeholder="E-mail"> <br>
                     <input type="text" id="subject" name="subject" placeholder="Onderwerp"> <br> 
                     <textarea name="message" id="message" placeholder="Bericht"></textarea> <br> 
-                    <input type="submit" name="submit" id="submit" value="Verzenden">
+                    <input type="submit" name="contact_submit" id="submit" value="Verzenden">
                 </form> <br>
             </div>
         </div>

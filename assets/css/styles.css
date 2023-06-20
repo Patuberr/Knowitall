@@ -393,3 +393,12 @@ body {
     color: red;
     max-width: 400px;
 }
+
+.no-sql {
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

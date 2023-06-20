@@ -281,12 +281,79 @@ if (isset($_POST['itemSubmit'])) {
                    # $afwachting =  
                     $approval = $_POST["status-geven"];
                     echo "$approval";
+                    
                     switch($approval) {
                         case "goedgekeurd":
                             $approvalnummer = 2;
                             break;
                         case "afgekeurd":
                             $approvalnummer = 1;
+                            echo '<script>let afkeurReden = 0; console.log(afkeurReden);</script>';
+                            try {
+                                $mail->isSMTP();
+                                $mail->Host = 'sandbox.smtp.mailtrap.io';
+                                $mail->SMTPAuth = true;
+                                $mail->Username = '1d9c33c3499beb';
+                                $mail->Password = '80e4a07165d43f';
+                                $mail->Port = 2525;
+                                $mail->SMTPSecure = 'tls';
+                                $mail->setFrom('admin@knowitall.nl', 'Admin');
+                                $mail->addAddress('jan@jan.nl', 'Jan');
+                                $mail->isHTML(true);
+                                $mail->Subject =    'Weetje ' . $approval . '!';
+                                $mail->Body    = ' <style>
+                                * {
+                                    font-family: Arial;
+                                    font-weight: bold;
+                                }
+                        
+                                body {
+                                    background-color: #eee;
+                                }
+                        
+                                .tekst {
+                                    width: 600px;
+                                    margin: 0 auto;
+                                    padding: 0 20px 10px 20px;
+                                    background-color: #fff;
+                                    border: 1px solid rgba(0,0,0,.25);
+                                    text-align: center;
+                                }
+                        
+                                a {
+                                        color: #000;
+                                        margin: 0 auto;
+                                        padding: 7px 13px;
+                                        border-radius: 100px;
+                                        text-decoration: none;
+                                        border: 3px solid black;
+                                        transition: .3s ease;
+                                }
+                        
+                                a:hover {
+                                    background-color: #000;
+                                    color: #fff;
+                                }
+                        
+                                h1 {
+                                    font-family: helvetica;
+                                }
+                                </style>
+                        
+                                <div class="tekst">
+                                <h1>KnowItAll</h1>
+                                <p>Beste Henk,<br> <br>
+                                Je weetje is ' . $approval . ' met de reden: <script>akeurReden</script></p>
+                                <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br>
+                                <p>KnowItAll team</p> <br>
+                                <footer>&copy 2023 Team zonder GPT</footer>
+                                </div>';
+                                sleep(5);
+                                $mail->send();
+                                echo "<script>console.log('Bericht is verzonden')</script>";
+                            } catch (Exception $e) {
+                                echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+                            }
                             break;
                         case "afwachting":
                             $approvalnummer = 0;
@@ -297,8 +364,7 @@ if (isset($_POST['itemSubmit'])) {
                     $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
                     $sth = $conn->prepare($sql);
                     $sth->execute();
-                    header('Location: http://knowitall.local/invis.php');
-                    
+
                 }
                 while($row = $query->fetch()) {
                     echo "
@@ -402,5 +468,10 @@ if (isset($_POST['itemSubmit'])) {
     <script src="../assets/js/script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </body>
 </html>
