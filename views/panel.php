@@ -297,7 +297,7 @@ if (isset($_POST['itemSubmit'])) {
                     $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
                     $sth = $conn->prepare($sql);
                     $sth->execute();
-                    header('Location: http://knowitall.local/invis.php');
+                    #header('Location: http://knowitall.local/invis.php');
                     
                 }
                 while($row = $query->fetch()) {
