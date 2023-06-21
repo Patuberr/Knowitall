@@ -264,7 +264,7 @@ if (isset($_POST['itemSubmit'])) {
                 <input type="file" id="images" name="my_image" required=true>
                 </label>
             </div> <br>
-            <input type="submit" name="itemSubmit" value="Toevoegen"> <br> <br>
+            <input type="submit" name="itemSubmit" class="submitButton" value="Toevoegen"> <br> <br>
         </form>
     </div>
 
@@ -274,7 +274,7 @@ if (isset($_POST['itemSubmit'])) {
         <div class="overzicht">
         <?php 
                 $sessionAccountId = $_SESSION['account_id'];
-                $query = $conn->query("SELECT * FROM message WHERE approval = 0 ORDER BY message_id DESC");
+                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 0 ORDER BY message_id DESC");
                 if(isset($_POST['approvalSubmit'])){
                     $message_id = $_GET["status"];
                     echo $message_id;
@@ -373,15 +373,15 @@ if (isset($_POST['itemSubmit'])) {
                         <p>" . $row['title'] . "</p>
                         <p id = 'descriptionText'>" . $row['description'] . "</p>
                         <p>" . $row['post_date'] . "</p>
-                        <p>" . $row['account_account_id'] . "</p>
+                        <p>" . $row['username'] . "</p>
                         <div class='selectButtons'>
-                        <form method='post' action='?status=" . $row['message_id'] ." '>
+                        <form method='post' action='?status=" . $row['message_id'] ."'>
                         <select name='status-geven' id='status-geven'>
                             <option name='afwachting' value='afwachting'>In afwacthing</option>
                             <option name='goedgekeurd' value='goedgekeurd'>Goedkeuren</option>
                             <option name='afgekeurd' value='afgekeurd'>Afkeuren</option>
                         </select>
-                        <input  type='submit' name='approvalSubmit' value='Bevestig' onclick='redirectHeader'></input>
+                        <input  type='submit' name='approvalSubmit' value='Bevestig' class='submitButtonStatus' onclick='redirectHeader'>
                         </form>
                         </div>
                     </div>";
@@ -393,7 +393,12 @@ if (isset($_POST['itemSubmit'])) {
 
     <div class="form overzicht-weetjes" id="overzicht-weetjes-form">
         <i class="fa-solid fa-x" onclick="closeLogin(7)"></i>
-        <h1>Overzicht van alle weetjes!</h1>
+        <h1>Overzicht van alle goedgekeurde weetjes weetjes!</h1>
+        
+        <?php
+
+        ?>
+
         <div class="overzicht">
             
             <div class="status">

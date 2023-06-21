@@ -164,7 +164,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="login_submit" value="Inloggen"> <br>
+            <input type="submit" class="submitButton" name="login_submit" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
@@ -190,7 +190,7 @@ if(isset($_POST["register_submit"])) {
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
             </div><br>
 
-            <input type="submit" name="register_submit" value="Registreren"> <br> <br>
+            <input type="submit" class="submitButton" name="register_submit" value="Registreren"> <br> <br>
         </form>
     </div>
 
@@ -202,7 +202,7 @@ if(isset($_POST["register_submit"])) {
             <h1>Weetje van de dag!</h1>
             <?php
                     $date = date("Y-m-d");
-                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND fact_date = '$date' ORDER BY message_id DESC");
+                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND fact_date = '$date' ORDER BY message_id DESC");
                     if ($query->rowCount() === 0) {
                         echo "<div class='no-sql'>
                             <h3>Er is voor vandaag nog geen weetje</h2>
@@ -222,7 +222,7 @@ if(isset($_POST["register_submit"])) {
                                         <h2 class='titel'>" . $row['title'] . "</h2>
                                         <p class='date italic'>" . $row['fact_date'] . "</p>
                                         <p>" . $row['description'] . "</p>
-                                        <p class='italic'>Auteur: " . $row['account_account_id'] . "</p>
+                                        <p class='italic'>Auteur: " . $row['username'] . "</p>
                                         <p class='date italic'>" . $row['post_date'] . "</p>
                                     </div>
                                 </div>
