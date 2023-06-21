@@ -263,7 +263,7 @@ if(isset($_POST["register_submit"])) {
 
                     if ($query->rowCount() === 0) {
                         echo "<div class='no-sql'>
-                            <h3>Er is voor vandaag nog geen weetje</h2>
+                            <h3>Met het trefwoord " . $search . " is geen weetje gevonden</h2>
                             <p>Login om een weetje aan te maken of klik <a href='/weetjes'>hier</a> om alle weetjes te zien.</p>
                             <p>KnowItAll Team</p>
                         </div>";
