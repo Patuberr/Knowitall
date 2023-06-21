@@ -243,7 +243,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="login_submit" value="Inloggen"> <br>
+            <input type="submit" name="login_submit" class="submitButton" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
@@ -268,7 +268,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password" id="id_password_2" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
             </div><br>
-            <input type="submit" name="register_submit" value="Registreren"> <br> <br>
+            <input type="submit" name="register_submit" class="submitButton" value="Registreren"> <br> <br>
         </form>
     </div>
 

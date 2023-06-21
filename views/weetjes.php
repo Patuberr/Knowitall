@@ -160,7 +160,7 @@ if(isset($_POST["register_submit"])) {
                 <input type="password" name="password_login" id="id_password_1" required=true placeholder="············">
                 <ion-icon name="eye-outline" id="eye_1" onclick="togglePassword(1)"></ion-icon>
             </div> <br>
-            <input type="submit" name="login_submit" value="Inloggen"> <br>
+            <input type="submit" name="login_submit" class="submitButton" value="Inloggen"> <br>
             <p>Geen account? <a onclick="openRegister()">Registreer</a></p> <br> 
         </form>
     </div>
@@ -187,7 +187,7 @@ if(isset($_POST["register_submit"])) {
                 <ion-icon name="eye-outline" id="eye_2" onclick="togglePassword(2)"></ion-icon>
             </div><br>
             
-            <input type="submit" name="register_submit" value="Registreren"> <br> <br>
+            <input type="submit" name="register_submit" class="submitButton" value="Registreren"> <br> <br>
         </form>
     </div>
 
@@ -217,7 +217,7 @@ if(isset($_POST["register_submit"])) {
 
             
                 <?php
-                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id DESC");
+                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id DESC");
 
                     if(isset($_POST['submit-filter'])) {           
                         $search = $_POST['search'];
@@ -225,37 +225,37 @@ if(isset($_POST["register_submit"])) {
                         switch($_POST['filter']) {
                             case 1: 
                                 if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id ASC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id ASC ");
                                 } else {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id ASC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY message_id ASC");
                                 }
                                 break;
                             case 2:
                                 if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id DESC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id DESC");
                                 } else {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id DESC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY message_id DESC");
                                 }
                                 break;
                             case 3:
                                 if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY title ASC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY title ASC");
                                 } else {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY title ASC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY title ASC");
                                 }
                                 break;
                             case 4:
                                 if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY title DESC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY title DESC");
                                 } else {
-                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY title DESC");
+                                    $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY title DESC");
                                 }
                                 break;
                             default:
                             if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id ASC");
+                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id ASC");
                             } else {
-                                $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id ASC");
+                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY message_id ASC");
                             }
                             break;
                         }
@@ -281,7 +281,7 @@ if(isset($_POST["register_submit"])) {
                                         <h2 class='titel'>" . $row['title'] . "</h2>
                                         <p class='date italic'>" . $row['fact_date'] . "</p>
                                         <p>" . $row['description'] . "</p>
-                                        <p class='italic'>Auteur: " . $row['account_account_id'] . "</p>
+                                        <p class='italic'>Auteur: " . $row['username'] . "</p>
                                         <p class='date italic'>" . $row['post_date'] . "</p>
                                     </div>
                                 </div>
