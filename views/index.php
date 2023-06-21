@@ -18,14 +18,21 @@ if(isset($_POST['login_submit'])) {
     $statement = $conn->prepare($query); 
     $statement->execute([':email' => $email]);  
     $row = $statement->fetch(PDO::FETCH_ASSOC);
+    
     if (is_array($row)) {
         if (password_verify($password, $row['userpassword'])){
-            $_SESSION['account_id'] = $row['account_id'];
+            if ($row["ban"] == 1) {
+                echo "<script type='text/javascript'>alert('Dit account is verbannen!');</script>";
+            }
+            else {
+                $_SESSION['account_id'] = $row['account_id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['permission'] = $row['permission'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['logedin'] = true;
             header("Location: /panel");
+            }
+            
         } else {
             echo "Wachtwoord is onjuist!";
         }
