@@ -43,6 +43,7 @@ body {
     position: fixed;
     width: 100%;
     top: 0;
+    z-index: 999;
 }
 
 .navbar {
@@ -104,7 +105,7 @@ body {
     width: 300px;
     background-color: #fff;
     border-radius: 20px;
-    z-index: 9999;
+    z-index: 9;
     animation: popup .3s;
 }
 
@@ -190,6 +191,7 @@ body {
 }
 
 .page {
+    z-index: 0;
     margin-top: 110px;
     min-height: 100vh;
 }
@@ -401,4 +403,55 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+}
+
+.filter-form-class {
+    z-index: 0  ;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.filter-form {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.filter-form .search {
+    margin: 10px;
+    /* margin-bottom: 10px; */
+    padding: 7px 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.filter-form .search input {
+    outline: 0;
+    font-size: 15px;
+    background-color: transparent;
+    border: 0;
+}
+
+.filter-form input[type=submit], .filter-form select {
+    margin: 10px;
+    border-radius: 20px;
+    padding: 7px 13px;
+    border: 2px solid black;
+    outline: 0;
+    color: black;
+    background: transparent;
+    font-size: 15px;
+    transition: .3s ease;
+}
+
+.filter-form input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: black;
+    color: #fff;
 }

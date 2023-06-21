@@ -195,30 +195,101 @@ if(isset($_POST["register_submit"])) {
 
         <div class="content">
             <h1>Alle weetjes!</h1>
+            <?php
+                
+            ?>
+            <div class="filter-form-class">
+                <form action="" method="post" class="filter-form">
+                    <div class="search">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="search" name="search" placeholder="Zoeken">
+                    </div>
+                    <select name="filter">
+                        <option value="0">Sorteren</option>
+                        <option value="1">Oud - nieuw</option>
+                        <option value="2">Nieuw - oud</option>
+                        <option value="3">Naam ↑</option>
+                        <option value="4">Naam ↓</option>
+                    </select>
+                    <input type="submit" value="filter" name="submit-filter">
+                </form>
+            </div>
+
+            
                 <?php
                     $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id DESC");
-            
-                    while($row = $query->fetch()) {
-                        if ($row == 0) {
-                            echo "test";
-                        } else {
-                            echo "<div class='box'>
-                            <div class='content'> 
-                                <div class='images'>
-                                    <img src='./assets/images/weetjes/" . $row['image'] . "' alt='" . $row['image'] . "'>
-                                </div>
-                                <div class='tekst'>
-                                    <h2 class='titel'>" . $row['title'] . "</h2>
-                                    <p class='date italic'>" . $row['fact_date'] . "</p>
-                                    <p>" . $row['description'] . "</p>
-                                    <p class='italic'>Auteur: " . $row['account_account_id'] . "</p>
-                                    <p class='date italic'>" . $row['post_date'] . "</p>
-                                </div>
-                            </div>
-                        </div>";
+
+                    if(isset($_POST['submit-filter'])) {           
+                        $search = $_POST['search'];
+                        
+                        switch($_POST['filter']) {
+                            case 1: 
+                                if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id ASC");
+                                } else {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id ASC");
+                                }
+                                break;
+                            case 2:
+                                if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id DESC");
+                                } else {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id DESC");
+                                }
+                                break;
+                            case 3:
+                                if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY title ASC");
+                                } else {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY title ASC");
+                                }
+                                break;
+                            case 4:
+                                if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY title DESC");
+                                } else {
+                                    $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY title DESC");
+                                }
+                                break;
+                            default:
+                            if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
+                                $query = $conn->query("SELECT * FROM message WHERE approval = 2 ORDER BY message_id ASC");
+                            } else {
+                                $query = $conn->query("SELECT * FROM message WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' ORDER BY message_id ASC");
+                            }
+                            break;
                         }
-                       
-                    };
+                    }
+
+                    if ($query->rowCount() === 0) {
+                        echo "<div class='no-sql'>
+                            <h3>Er is voor vandaag nog geen weetje</h2>
+                            <p>Login om een weetje aan te maken of klik <a href='/weetjes'>hier</a> om alle weetjes te zien.</p>
+                            <p>KnowItAll Team</p>
+                        </div>";
+                    } else {
+                        while($row = $query->fetch()) {
+                            if ($row == 0) {
+                                echo "test";
+                            } else {
+                                echo "<div class='box'>
+                                <div class='content'> 
+                                    <div class='images'>
+                                        <img src='./assets/images/weetjes/" . $row['image'] . "' alt='" . $row['image'] . "'>
+                                    </div>
+                                    <div class='tekst'>
+                                        <h2 class='titel'>" . $row['title'] . "</h2>
+                                        <p class='date italic'>" . $row['fact_date'] . "</p>
+                                        <p>" . $row['description'] . "</p>
+                                        <p class='italic'>Auteur: " . $row['account_account_id'] . "</p>
+                                        <p class='date italic'>" . $row['post_date'] . "</p>
+                                    </div>
+                                </div>
+                            </div>";
+                            }
+                           
+                        };
+                    }
                 ?>
         </div>
     </div>
