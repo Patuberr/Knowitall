@@ -14,8 +14,6 @@ if(isset($_POST['login_submit'])) {
     $email = $_POST['email_login'];
     $password = $_POST["password_login"];
 
-    // echo "dit werkt";
-
     $query = 'SELECT * FROM account WHERE (email = :email)';
     $statement = $conn->prepare($query); 
     $statement->execute([':email' => $email]);  
@@ -27,10 +25,8 @@ if(isset($_POST['login_submit'])) {
             $_SESSION['permission'] = $row['permission'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['logedin'] = true;
-            // echo "Dit werkt!";
             header("Location: /panel");
         } else {
-            echo "Wachtwoord is onjuist!";
         }
     }
 }
@@ -46,8 +42,8 @@ if(isset($_POST['contact_submit'])) {
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
         $mail->Port = 2525;
-        $mail->Username = '1d9c33c3499beb';
-        $mail->Password = '80e4a07165d43f';
+        $mail->Username = '22966c4970ed6b';
+        $mail->Password = '4b80655fb3c310';
 	    $mail->SMTPSecure = 'tls';
 	    $mail->setFrom($email, $name);
 	    $mail->addAddress('info@knowitall.nl', 'KnowItAll');
@@ -118,77 +114,84 @@ if(isset($_POST["register_submit"])) {
     $email = htmlspecialchars($_POST["email"]);
     $userPassword = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT); // Changed variable name to $userPassword
 
-    $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
+    $sql = "SELECT * FROM account WHERE email = :email";
     $sth = $conn->prepare($sql);
-    $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
+    $sth->execute([':email' => $email]);
+    $exists = $sth->fetch();
 
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
-        $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = '1d9c33c3499beb';
-        $mail->Password = '80e4a07165d43f';
-	    $mail->SMTPSecure = 'tls';
-	    $mail->setFrom('info@knowitall.nl', 'KnowItAll');
-	    $mail->addAddress($email, $username);
-	    $mail->isHTML(true);
-	    $mail->Subject =    'Registratie bij KnowItAll';
-	    $mail->Body    = ' <style>
-        * {
-            font-family: Arial;
-            font-weight: bold;
-        }
+    if ($exists) {
+        echo "<script>alert('Email is al ingebruik')</script>";
+    } else {
+        $sql = "INSERT INTO account (username, email, userpassword) VALUES (:username,:email,:userpassword)";
+        $sth = $conn->prepare($sql);
+        $sth->execute(['username' => $username, 'email' => $email, 'userpassword' => $userPassword]);
 
-        body {
-            background-color: #eee;
-        }
-
-        .tekst {
-            width: 600px;
-            margin: 0 auto;
-            padding: 0 20px 10px 20px;
-            background-color: #fff;
-            border: 1px solid rgba(0,0,0,.25);
-            text-align: center;
-        }
-
-        a {
-                color: #000;
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'sandbox.smtp.mailtrap.io';
+            $mail->SMTPAuth = true;
+            $mail->Port = 2525;
+            $mail->Username = '22966c4970ed6b';
+            $mail->Password = '4b80655fb3c310';
+            $mail->SMTPSecure = 'tls';
+            $mail->setFrom('info@knowitall.nl', 'KnowItAll');
+            $mail->addAddress("$email", "$username");
+            $mail->isHTML(true);
+            $mail->Subject =    'Registratie bij KnowItAll';
+            $mail->Body    = ' <style>
+            * {
+                font-family: Arial;
+                font-weight: bold;
+            }
+    
+            body {
+                background-color: #eee;
+            }
+    
+            .tekst {
+                width: 600px;
                 margin: 0 auto;
-                padding: 7px 13px;
-                border-radius: 100px;
-                text-decoration: none;
-                border: 3px solid black;
-                transition: .3s ease;
+                padding: 0 20px 10px 20px;
+                background-color: #fff;
+                border: 1px solid rgba(0,0,0,.25);
+                text-align: center;
+            }
+    
+            a {
+                    color: #000;
+                    margin: 0 auto;
+                    padding: 7px 13px;
+                    border-radius: 100px;
+                    text-decoration: none;
+                    border: 3px solid black;
+                    transition: .3s ease;
+            }
+    
+            a:hover {
+                background-color: #000;
+                color: #fff;
+            }
+    
+            h1 {
+                font-family: helvetica;
+            }
+            </style>
+    
+            <div class="tekst">
+            <h1>KnowItAll</h1>
+            <p>Welkom ' . $username . ',<br> <br>
+            leuk dat je je geregistreerd hebt bij KnowItAll. Klik op de knop hier beneden om weer naar de website te gaan. </p>
+            <a href="http://knowitall.local/" target="_blank">Website</a> <br> <br>
+            KnowItAll team. <br> <br> <br>
+            <footer>&copy 2023 Team zonder GPT</footer>
+            </div>';
+            $mail->send();
+            echo "<script>console.log('Bericht is verzonden')</script>";
+        } catch (Exception $e) {
+            echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
         }
-
-        a:hover {
-            background-color: #000;
-            color: #fff;
-        }
-
-        h1 {
-            font-family: helvetica;
-        }
-        </style>
-
-        <div class="tekst">
-        <h1>KnowItAll</h1>
-        <p>Welkom ' . $username . ',<br> <br>
-        leuk dat je je geregistreerd hebt bij KnowItAll. Klik op de knop hier beneden om weer naar de website te gaan. </p>
-        <a href="http://knowitall.local/" target="_blank">Website</a> <br> <br>
-        KnowItAll team. <br> <br> <br>
-        <footer>&copy 2023 Team zonder GPT</footer>
-        </div>';
-	    $mail->send();
-	    echo "<script>console.log('Bericht is verzonden')</script>";
-	} catch (Exception $e) {
-	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+    }
 }
-}
-
-?>
 
 ?>
 

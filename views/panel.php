@@ -8,10 +8,29 @@ if ($_SESSION['logedin'] == 0) {
 } else {
 }
 
-// var_dump($_SESSION);
+if(isset($_GET['delete-message'])) {
+    $id = ((int)$_GET["delete-message"]);
 
-// echo $_SESSION['logedin'];
-// echo $_SESSION['account_id'] . $_SESSION['username'] . $_SESSION['permission'] . $_SESSION['email'] . $_SESSION['logedin'];
+    $sql = "DELETE FROM message WHERE message_id=?";
+    $stmt= $conn->prepare($sql);
+    $stmt->execute([$id]);
+}
+
+if(isset($_GET['delete-user'])) {
+    $id = ((int)$_GET["delete-user"]);
+    $sql = "SELECT * FROM account WHERE account_id=? AND permission = 1";
+    $stmt= $conn->prepare($sql);
+    $stmt->execute([$id]);
+    $rowCount = $stmt->rowCount();
+
+    if($rowCount > 0) {
+        $sql = "UPDATE account SET ban = 1 WHERE account_id=? AND permission = 1";
+        $stmt= $conn->prepare($sql);
+        $stmt->execute([$id]);
+    } else {
+        echo "De permissie van deze gebruiker is te hoog om te verbannen";
+    }
+}
 
 if (isset($_GET['logout'])) {
     session_destroy();
@@ -65,8 +84,8 @@ if (isset($_POST['itemSubmit'])) {
 	    $mail->isSMTP();
 	    $mail->Host = 'sandbox.smtp.mailtrap.io';
 	    $mail->SMTPAuth = true;
-        $mail->Username = '1d9c33c3499beb';
-        $mail->Password = '80e4a07165d43f';
+        $mail->Username = '22966c4970ed6b';
+        $mail->Password = '4b80655fb3c310';
 	    $mail->Port = 2525;
 	    $mail->SMTPSecure = 'tls';
 	    $mail->setFrom($_SESSION['email'], $_SESSION['username']);
@@ -125,7 +144,95 @@ if (isset($_POST['itemSubmit'])) {
 	    echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
     }
 } else {
-    echo "Ging iets fout";
+    // echo "Ging iets fout";
+}
+
+if(isset($_POST['approvalSubmit'])){
+    $message_id = $_GET["status"];
+    $approval = $_POST["status-geven"];
+    
+    switch($approval) {
+        case "goedgekeurd":
+            $approvalnummer = 2;
+            break;
+        case "afgekeurd":
+            $approvalnummer = 1;
+            echo '<script>let afkeurReden = 0; console.log(afkeurReden);</script>';
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'sandbox.smtp.mailtrap.io';
+                $mail->SMTPAuth = true;
+                $mail->Username = '22966c4970ed6b';
+                $mail->Password = '4b80655fb3c310';
+                $mail->Port = 2525;
+                $mail->SMTPSecure = 'tls';
+                $mail->setFrom('admin@knowitall.nl', 'Admin');
+                $mail->addAddress("test@test.nl", "test");
+                $mail->isHTML(true);
+                $mail->Subject =    'Weetje ' . $approval . '!';
+                $mail->Body    = ' <style>
+                * {
+                    font-family: Arial;
+                    font-weight: bold;
+                }
+        
+                body {
+                    background-color: #eee;
+                }
+        
+                .tekst {
+                    width: 600px;
+                    margin: 0 auto;
+                    padding: 0 20px 10px 20px;
+                    background-color: #fff;
+                    border: 1px solid rgba(0,0,0,.25);
+                    text-align: center;
+                }
+        
+                a {
+                        color: #000;
+                        margin: 0 auto;
+                        padding: 7px 13px;
+                        border-radius: 100px;
+                        text-decoration: none;
+                        border: 3px solid black;
+                        transition: .3s ease;
+                }
+        
+                a:hover {
+                    background-color: #000;
+                    color: #fff;
+                }
+        
+                h1 {
+                    font-family: helvetica;
+                }
+                </style>
+        
+                <div class="tekst">
+                <h1>KnowItAll</h1>
+                <p>Beste test,<br> <br>
+                Je weetje is ' . $approval . ' met de reden: <script>akeurReden</script></p>
+                <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br>
+                <p>KnowItAll team</p> <br>
+                <footer>&copy 2023 Team zonder GPT</footer>
+                </div>';
+                sleep(5);
+                $mail->send();
+                echo "<script>console.log('Bericht is verzonden')</script>";
+            } catch (Exception $e) {
+                echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+            }
+            break;
+        case "afwachting":
+            $approvalnummer = 0;
+            break;
+    }
+
+    $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
+    $sth = $conn->prepare($sql);
+    $sth->execute();
+    
 }
 
 ?>
@@ -275,98 +382,7 @@ if (isset($_POST['itemSubmit'])) {
         <?php 
                 $sessionAccountId = $_SESSION['account_id'];
                 $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 0 ORDER BY message_id DESC");
-                if(isset($_POST['approvalSubmit'])){
-                    $message_id = $_GET["status"];
-                    echo $message_id;
-                   # $afwachting =  
-                    $approval = $_POST["status-geven"];
-                    echo "$approval";
-                    
-                    switch($approval) {
-                        case "goedgekeurd":
-                            $approvalnummer = 2;
-                            break;
-                        case "afgekeurd":
-                            $approvalnummer = 1;
-                            echo '<script>let afkeurReden = 0; console.log(afkeurReden);</script>';
-                            try {
-                                $mail->isSMTP();
-                                $mail->Host = 'sandbox.smtp.mailtrap.io';
-                                $mail->SMTPAuth = true;
-                                $mail->Username = '1d9c33c3499beb';
-                                $mail->Password = '80e4a07165d43f';
-                                $mail->Port = 2525;
-                                $mail->SMTPSecure = 'tls';
-                                $mail->setFrom('admin@knowitall.nl', 'Admin');
-                                $mail->addAddress('jan@jan.nl', 'Jan');
-                                $mail->isHTML(true);
-                                $mail->Subject =    'Weetje ' . $approval . '!';
-                                $mail->Body    = ' <style>
-                                * {
-                                    font-family: Arial;
-                                    font-weight: bold;
-                                }
-                        
-                                body {
-                                    background-color: #eee;
-                                }
-                        
-                                .tekst {
-                                    width: 600px;
-                                    margin: 0 auto;
-                                    padding: 0 20px 10px 20px;
-                                    background-color: #fff;
-                                    border: 1px solid rgba(0,0,0,.25);
-                                    text-align: center;
-                                }
-                        
-                                a {
-                                        color: #000;
-                                        margin: 0 auto;
-                                        padding: 7px 13px;
-                                        border-radius: 100px;
-                                        text-decoration: none;
-                                        border: 3px solid black;
-                                        transition: .3s ease;
-                                }
-                        
-                                a:hover {
-                                    background-color: #000;
-                                    color: #fff;
-                                }
-                        
-                                h1 {
-                                    font-family: helvetica;
-                                }
-                                </style>
-                        
-                                <div class="tekst">
-                                <h1>KnowItAll</h1>
-                                <p>Beste Henk,<br> <br>
-                                Je weetje is ' . $approval . ' met de reden: <script>akeurReden</script></p>
-                                <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br>
-                                <p>KnowItAll team</p> <br>
-                                <footer>&copy 2023 Team zonder GPT</footer>
-                                </div>';
-                                sleep(5);
-                                $mail->send();
-                                echo "<script>console.log('Bericht is verzonden')</script>";
-                            } catch (Exception $e) {
-                                echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
-                            }
-                            break;
-                        case "afwachting":
-                            $approvalnummer = 0;
-                            break;
-                    }
-                    #echo "$approvalnummer";
 
-                    $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
-                    $sth = $conn->prepare($sql);
-                    $sth->execute();
-                    header('Location: http://knowitall.local/invis.php');
-                    
-                }
                 while($row = $query->fetch()) {
                     echo "
                     <div class='status'>
@@ -381,7 +397,7 @@ if (isset($_POST['itemSubmit'])) {
                             <option name='goedgekeurd' value='goedgekeurd'>Goedkeuren</option>
                             <option name='afgekeurd' value='afgekeurd'>Afkeuren</option>
                         </select>
-                        <input  type='submit' name='approvalSubmit' value='Bevestig' class='submitButtonStatus' onclick='redirectHeader'>
+                        <input  type='submit' name='approvalSubmit' value='Bevestig' class='submitButtonStatus'>
                         </form>
                         </div>
                     </div>";
@@ -394,49 +410,22 @@ if (isset($_POST['itemSubmit'])) {
     <div class="form overzicht-weetjes" id="overzicht-weetjes-form">
         <i class="fa-solid fa-x" onclick="closeLogin(7)"></i>
         <h1>Overzicht van alle goedgekeurde weetjes weetjes!</h1>
-        
-        <?php
-
-        ?>
 
         <div class="overzicht">
-            
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Julian Berle</p>
-                <div class="buttons">
-                    <button class="orange">Bewerken</button>
-                    <button class="red">Verwijder</button>
-                </div>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Jeroen van Ark</p>
-                <div class="buttons">
-                    <button class="orange">Bewerken</button>
-                    <button class="red">Verwijder</button>
-                </div>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Patrick van Dijk</p>
-                <div class="buttons">
-                    <button class="orange">Bewerken</button>
-                    <button class="red">Verwijder</button>
-                </div>
-            </div>
-            <div class="status">
-                <p>Koningsdag</p>
-                <p>20-02-2023</p>
-                <p>Efe Bakir</p>
-                <div class="buttons">
-                    <button class="orange">Bewerken</button>
-                    <button class="red">Verwijder</button>
-                </div>
-            </div>
+        <?php 
+                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id DESC");
+                while($row = $query->fetch()) {
+                    echo "
+                    <div class='status'>
+                        <p>" . $row['title'] . "</p>
+                        <p>" . $row['post_date'] . "</p>
+                        <p>" . $row['username'] . "</p>
+                        <div class='buttons'>
+                            <button onclick='location.href= `?delete-message=" . $row['message_id'] . "`' class='red'>Verwijder</button>
+                        </div>
+                    </div>";
+                };
+            ?>
         </div> <br>
         
     </div>
@@ -447,18 +436,48 @@ if (isset($_POST['itemSubmit'])) {
         <div class="overzicht">
 
         <?php
-        $credentialsUser= "SELECT username, email, permission FROM account";
+            $credentialsUser= "SELECT * FROM account";
             $stmn = $conn->prepare($credentialsUser);
             $stmn->execute();
             while ($row = $stmn->fetch()) {
-        echo "<div class='gebruiker'>";
-        echo "<p>Name: " . $row["username"]. "</p>";
-        echo "<p>Permission: " .$row["permission"]. "</p>";
-        echo "<p>Email: " . $row["email"]. "</p>";
-        echo "<div class='buttons'>";
-        echo"<button class='red'>Verbannen</button>";
-        echo "</div>";
-        echo "</div>";
+                switch ($row['permission']) {
+                    case 1:
+                        $permissionName = "Gebruiker";
+                        break;
+                    case 2:
+                        $permissionName = "Admin";
+                        break;
+                    case 3:
+                        $permissionName = "Beheerder";
+                        break;
+                    default:
+                        $permissionName = "Er is een fout opgetreden";
+                        break;
+
+                }
+
+                switch ($row['ban']) {
+                    case 0: 
+                        $banName = "nee";
+                        break;
+                    case 1:
+                        $banName = "Ja";
+                        break;
+                    default:
+                        $banName = "Er is een fout opgetreden";
+                        break;
+                }
+
+                echo "
+                <div class='gebruiker'>
+                    <p>" . $row['username'] . "</p>
+                    <p>" . $permissionName . "</p>
+                    <p>" . $row['email'] . "</p>
+                    <p>Verbannen: " . $banName . "</p>
+                    <div class='buttons'>
+                        <button class='red' onclick='location.href = `?delete-user=" . $row['account_id'] . "`'>Verbannen</button>
+                    </div>
+                </div>";
       }
       ?>
            
