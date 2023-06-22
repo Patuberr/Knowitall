@@ -457,9 +457,15 @@ body {
     color: #fff;
 }
 
-.ingestuurde-weetjes-form input{
-    color: #000;
-    border: none;
+.reason {
+    outline: 2px solid black;
+    font-size: 18px;
+}
+
+.form-ingestuurde-weetjes {
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
 }
 
 .submitButtonStatus {

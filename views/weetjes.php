@@ -310,5 +310,13 @@ if(isset($_POST["register_submit"])) {
     <script src="./assets/js/script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+        if(typeof window.history.pushState == 'function') {
+        window.history.pushState({}, "Hide", "http://knowitall.local/weetjes");
+        }
+    </script>
 </body>
 </html>

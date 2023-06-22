@@ -61,6 +61,9 @@ function closeLogin(number) {
     } else if (number == 8) {
         document.getElementById("gebruikers-form").style.animation = "popout .3s";
         setTimeout(() => {       document.getElementById("gebruikers-form").style.display = "none"; }, 290);
+    } else if (number == 9) {
+        document.getElementById("reden-afkeuren-form").style.animation = "popout .3s";
+        setTimeout(() => {       document.getElementById("reden-afkeuren-form").style.display = "none"; }, 290);
     }
 
 };
@@ -121,5 +124,11 @@ function openGebruikers() {
     document.getElementById("overzicht-weetjes-form").style.display = "none";
     document.getElementById("gebruikers-form").style.animation = "popup .3s";
     document.getElementById("gebruikers-form").style.display = "block";
+}
+
+function openReasonReject() {
+    document.getElementById("reden-afkeuren-form").style.animation = "popup .3s";
+    document.getElementById("reden-afkeuren-form").style.display = "block";
+
 }
 

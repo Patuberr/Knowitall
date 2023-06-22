@@ -150,6 +150,9 @@ if (isset($_POST['itemSubmit'])) {
 if(isset($_POST['approvalSubmit'])){
     $message_id = $_GET["status"];
     $approval = $_POST["status-geven"];
+    $reason = $_POST['reason'];
+    $username = $_GET['username'];
+    $email = $_GET['email'];
     
     switch($approval) {
         case "goedgekeurd":
@@ -157,72 +160,6 @@ if(isset($_POST['approvalSubmit'])){
             break;
         case "afgekeurd":
             $approvalnummer = 1;
-            echo '<script>let afkeurReden = 0; console.log(afkeurReden);</script>';
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'sandbox.smtp.mailtrap.io';
-                $mail->SMTPAuth = true;
-                $mail->Username = '22966c4970ed6b';
-                $mail->Password = '4b80655fb3c310';
-                $mail->Port = 2525;
-                $mail->SMTPSecure = 'tls';
-                $mail->setFrom('admin@knowitall.nl', 'Admin');
-                $mail->addAddress("test@test.nl", "test");
-                $mail->isHTML(true);
-                $mail->Subject =    'Weetje ' . $approval . '!';
-                $mail->Body    = ' <style>
-                * {
-                    font-family: Arial;
-                    font-weight: bold;
-                }
-        
-                body {
-                    background-color: #eee;
-                }
-        
-                .tekst {
-                    width: 600px;
-                    margin: 0 auto;
-                    padding: 0 20px 10px 20px;
-                    background-color: #fff;
-                    border: 1px solid rgba(0,0,0,.25);
-                    text-align: center;
-                }
-        
-                a {
-                        color: #000;
-                        margin: 0 auto;
-                        padding: 7px 13px;
-                        border-radius: 100px;
-                        text-decoration: none;
-                        border: 3px solid black;
-                        transition: .3s ease;
-                }
-        
-                a:hover {
-                    background-color: #000;
-                    color: #fff;
-                }
-        
-                h1 {
-                    font-family: helvetica;
-                }
-                </style>
-        
-                <div class="tekst">
-                <h1>KnowItAll</h1>
-                <p>Beste test,<br> <br>
-                Je weetje is ' . $approval . ' met de reden: <script>akeurReden</script></p>
-                <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br>
-                <p>KnowItAll team</p> <br>
-                <footer>&copy 2023 Team zonder GPT</footer>
-                </div>';
-                sleep(5);
-                $mail->send();
-                echo "<script>console.log('Bericht is verzonden')</script>";
-            } catch (Exception $e) {
-                echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
-            }
             break;
         case "afwachting":
             $approvalnummer = 0;
@@ -232,6 +169,72 @@ if(isset($_POST['approvalSubmit'])){
     $sql = "UPDATE message SET approval=$approvalnummer WHERE message_id = $message_id";
     $sth = $conn->prepare($sql);
     $sth->execute();
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Username = '22966c4970ed6b';
+        $mail->Password = '4b80655fb3c310';
+        $mail->Port = 2525;
+        $mail->SMTPSecure = 'tls';
+        $mail->setFrom('admin@knowitall.nl', 'Admin');
+        $mail->addAddress($email, $username);
+        $mail->isHTML(true);
+        $mail->Subject =    'Weetje ' . $approval . '!';
+        $mail->Body    = ' <style>
+        * {
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        .tekst {
+            width: 600px;
+            margin: 0 auto;
+            padding: 0 20px 10px 20px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.25);
+            text-align: center;
+        }
+
+        a {
+                color: #000;
+                margin: 0 auto;
+                padding: 7px 13px;
+                border-radius: 100px;
+                text-decoration: none;
+                border: 3px solid black;
+                transition: .3s ease;
+        }
+
+        a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1 {
+            font-family: helvetica;
+        }
+        </style>
+
+        <div class="tekst">
+        <h1>KnowItAll</h1>
+        <p>Beste test,<br> <br>
+        Je weetje is ' . $approval . ' met de reden: ' . $reason . ' <script>akeurReden</script></p>
+        <a href="http://knowitall.local/panel" target="_blank">Website</a> <br> <br>
+        <p>KnowItAll team</p> <br>
+        <footer>&copy 2023 Team zonder GPT</footer>
+        </div>';
+        sleep(5);
+        $mail->send();
+        echo "<script>console.log('Bericht is verzonden')</script>";
+    } catch (Exception $e) {
+        echo "<script>console.log('Bericht kon niet verzonden worden. Mailer Error: ' . {$mail->ErrorInfo} . ')</script>";
+    }
     
 }
 
@@ -391,12 +394,13 @@ if(isset($_POST['approvalSubmit'])){
                         <p>" . $row['post_date'] . "</p>
                         <p>" . $row['username'] . "</p>
                         <div class='selectButtons'>
-                        <form method='post' action='?status=" . $row['message_id'] ."'>
-                        <select name='status-geven' id='status-geven'>
+                        <form class='form-ingestuurde-weetjes' method='post' action='?status=" . $row['message_id'] ."&username=" . $row['username'] . "&email=" . $row['email'] . "'>
+                        <select name='status-geven' id='status-geven' required=true>
                             <option name='afwachting' value='afwachting'>In afwacthing</option>
                             <option name='goedgekeurd' value='goedgekeurd'>Goedkeuren</option>
                             <option name='afgekeurd' value='afgekeurd'>Afkeuren</option>
                         </select>
+                        <input type='text' name='reason' placeholder='Reden' class='reason' required=true>
                         <input  type='submit' name='approvalSubmit' value='Bevestig' class='submitButtonStatus'>
                         </form>
                         </div>
@@ -496,6 +500,9 @@ if(isset($_POST['approvalSubmit'])){
     <script>
         if ( window.history.replaceState ) {
             window.history.replaceState( null, null, window.location.href );
+        }
+        if(typeof window.history.pushState == 'function') {
+        window.history.pushState({}, "Hide", "http://knowitall.local/panel");
         }
     </script>
 </body>
