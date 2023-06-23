@@ -42,8 +42,8 @@ if(isset($_POST['contact_submit'])) {
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
         $mail->Port = 2525;
-        $mail->Username = '22966c4970ed6b';
-        $mail->Password = '4b80655fb3c310';
+        $mail->Username = 'f407c60d88a282';
+        $mail->Password = '25c87a7bc30d5b';
 	    $mail->SMTPSecure = 'tls';
 	    $mail->setFrom($email, $name);
 	    $mail->addAddress('info@knowitall.nl', 'KnowItAll');
@@ -131,8 +131,8 @@ if(isset($_POST["register_submit"])) {
             $mail->Host = 'sandbox.smtp.mailtrap.io';
             $mail->SMTPAuth = true;
             $mail->Port = 2525;
-            $mail->Username = '22966c4970ed6b';
-            $mail->Password = '4b80655fb3c310';
+            $mail->Username = 'f407c60d88a282';
+            $mail->Password = '25c87a7bc30d5b';
             $mail->SMTPSecure = 'tls';
             $mail->setFrom('info@knowitall.nl', 'KnowItAll');
             $mail->addAddress("$email", "$username");

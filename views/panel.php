@@ -84,8 +84,8 @@ if (isset($_POST['itemSubmit'])) {
 	    $mail->isSMTP();
 	    $mail->Host = 'sandbox.smtp.mailtrap.io';
 	    $mail->SMTPAuth = true;
-        $mail->Username = '22966c4970ed6b';
-        $mail->Password = '4b80655fb3c310';
+        $mail->Username = 'f407c60d88a282';
+        $mail->Password = '25c87a7bc30d5b';
 	    $mail->Port = 2525;
 	    $mail->SMTPSecure = 'tls';
 	    $mail->setFrom($_SESSION['email'], $_SESSION['username']);
@@ -174,8 +174,8 @@ if(isset($_POST['approvalSubmit'])){
         $mail->isSMTP();
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
-        $mail->Username = '22966c4970ed6b';
-        $mail->Password = '4b80655fb3c310';
+        $mail->Username = 'f407c60d88a282';
+        $mail->Password = '25c87a7bc30d5b';
         $mail->Port = 2525;
         $mail->SMTPSecure = 'tls';
         $mail->setFrom('admin@knowitall.nl', 'Admin');
