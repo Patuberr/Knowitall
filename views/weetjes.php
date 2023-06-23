@@ -204,9 +204,6 @@ if(isset($_POST["register_submit"])) {
 
         <div class="content">
             <h1>Alle weetjes!</h1>
-            <?php
-                
-            ?>
             <div class="filter-form-class">
                 <form action="" method="post" class="filter-form">
                     <div class="search">
@@ -262,9 +259,9 @@ if(isset($_POST["register_submit"])) {
                                 break;
                             default:
                             if($_POST['search'] === "" || $_POST['search'] === " " || $_POST['search'] === null) {
-                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id ASC");
+                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 ORDER BY message_id DESC");
                             } else {
-                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY message_id ASC");
+                                $query = $conn->query("SELECT * FROM message INNER JOIN account on message.account_account_id = account.account_id WHERE approval = 2 AND post_date LIKE '%$search%' or title LIKE '%$search%' or description LIKE '%$search%' or fact_date LIKE '%$search%' or image LIKE '%$search%' or username like '%$search%' ORDER BY message_id DESC");
                             }
                             break;
                         }
